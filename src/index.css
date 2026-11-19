@@ -1,0 +1,248 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0d1021;
+  --surface: #171b33;
+  --surface2: #1f2442;
+  --ink: #f2f0ff;
+  --muted: #a7a5c9;
+  --accent: #7c5cff;
+  --accent2: #ff5ca8;
+  --line: #2c3160;
+  --good: #2fbf71;
+  --bad: #ef476f;
+  --warn: #ffb703;
+  --radius: 16px;
+}
+
+html {
+  scrollbar-color: var(--accent) var(--bg);
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  min-height: 100vh;
+  transition: background-color 0.35s ease, color 0.35s ease;
+  background-image:
+    radial-gradient(1100px 500px at 85% -10%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 60%),
+    radial-gradient(900px 480px at -10% 110%, color-mix(in srgb, var(--accent2) 24%, transparent), transparent 60%),
+    radial-gradient(700px 380px at 50% 45%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 65%);
+  background-attachment: fixed;
+}
+
+.font-arabic {
+  font-family: "Amiri", serif;
+}
+
+.font-display {
+  font-family: "Cinzel", serif;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fadein {
+  animation: fadein 0.28s ease;
+}
+
+@keyframes clockpulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.animate-clockpulse {
+  animation: clockpulse 1s infinite;
+}
+
+@keyframes badgepop {
+  30% {
+    transform: scale(1.12) rotate(-2deg);
+  }
+  60% {
+    transform: scale(0.97);
+  }
+}
+
+.animate-badgepop {
+  animation: badgepop 0.6s ease;
+}
+
+@keyframes celeshift {
+  to {
+    background-position: 220% 0;
+  }
+}
+
+.btn-celebrate {
+  background: linear-gradient(120deg, var(--accent), var(--accent2), var(--accent));
+  background-size: 220% 100%;
+  animation: celeshift 2.6s linear infinite;
+  box-shadow: 0 8px 26px color-mix(in srgb, var(--accent2) 45%, transparent);
+}
+
+/* Dancing avatar reaction animations */
+@keyframes crydroop {
+  0%, 100% {
+    transform: translateY(5px) rotate(-3deg) scale(0.97);
+  }
+  30% {
+    transform: translateY(8px) rotate(2.5deg) scale(0.95);
+  }
+  55% {
+    transform: translateY(4px) rotate(-4deg) scale(0.97);
+  }
+  80% {
+    transform: translateY(7px) rotate(3deg) scale(0.96);
+  }
+}
+
+@keyframes tearfall {
+  0% {
+    transform: translateY(-6px) scale(0.7);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(46px) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes regretshake {
+  0%, 100% {
+    transform: translateY(6px) rotate(-4deg);
+  }
+  25% {
+    transform: translateY(7px) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(6px) rotate(4deg);
+  }
+  75% {
+    transform: translateY(7px) rotate(1deg);
+  }
+}
+
+@keyframes smilespin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes smilebounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  65% {
+    transform: translateY(1px);
+  }
+}
+
+@keyframes smileglow {
+  0%, 100% {
+    box-shadow: 0 0 14px color-mix(in srgb, var(--warn) 45%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 36px color-mix(in srgb, var(--warn) 85%, transparent);
+  }
+}
+
+@keyframes megadance {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  20% {
+    transform: translateY(-18px) rotate(14deg) scale(1.1);
+  }
+  40% {
+    transform: translateY(0) rotate(-14deg) scale(1.22);
+  }
+  60% {
+    transform: translateY(-14px) rotate(180deg) scale(1.08);
+  }
+  80% {
+    transform: translateY(0) rotate(360deg) scale(1.18);
+  }
+  100% {
+    transform: translateY(0) rotate(360deg) scale(1);
+  }
+}
+
+@keyframes sparkfloat {
+  0%, 100% {
+    transform: translateY(0) scale(0.8) rotate(0deg);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translateY(-7px) scale(1.2) rotate(25deg);
+    opacity: 1;
+  }
+}
+
+.dancer-cry .dancer-avatar {
+  animation: crydroop 1.7s ease-in-out infinite;
+  filter: saturate(0.65) brightness(0.93);
+}
+.dancer-regret .dancer-avatar {
+  animation: regretshake 3s ease-in-out infinite;
+  filter: saturate(0.8);
+}
+.dancer-smile .dancer-avatar {
+  animation:
+    smilespin 1.3s ease-out 0.15s 1 both,
+    smilebounce 1.5s ease-in-out 1.6s infinite,
+    smileglow 1.5s ease-in-out 1.6s infinite;
+}
+.dancer-mega .dancer-avatar {
+  animation: megadance 0.95s ease-in-out infinite;
+  box-shadow: 0 0 34px color-mix(in srgb, var(--accent2) 65%, transparent);
+}
+
+.dancer-tear {
+  animation: tearfall 1.25s ease-in infinite;
+}
+.dancer-spark {
+  animation: sparkfloat 1.5s ease-in-out infinite;
+}
+.dancer-mega .dancer-spark {
+  animation-duration: 0.8s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadein,
+  .animate-clockpulse,
+  .animate-badgepop,
+  .btn-celebrate,
+  .dancer-avatar,
+  .dancer-tear,
+  .dancer-spark {
+    animation: none !important;
+  }
+  .dancer-tear {
+    display: none;
+  }
+}

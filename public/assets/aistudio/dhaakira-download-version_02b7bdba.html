@@ -1,0 +1,2269 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>DHAAKIRA – The Grand Memory Arena · Download Version</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cinzel:wght@600;700;800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2.25rem; }
+      * { box-sizing: border-box; }
+      :root{
+        --bg:#0d1021; --surface:#171b33; --surface2:#1f2442; --ink:#f2f0ff; --muted:#a7a5c9;
+        --accent:#7c5cff; --accent2:#ff5ca8; --line:#2c3160; --good:#2fbf71; --bad:#ef476f; --warn:#ffb703;
+        --radius:16px;
+      }
+      html{ scrollbar-color: var(--accent) var(--bg); }
+      body{
+        margin:0; background:var(--bg); color:var(--ink);
+        font-family:"Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+        min-height:100vh; transition: background .35s ease, color .35s ease;
+        background-image: radial-gradient(1100px 500px at 85% -10%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 60%),
+                          radial-gradient(900px 480px at -10% 110%, color-mix(in srgb, var(--accent2) 24%, transparent), transparent 60%),
+                          radial-gradient(700px 380px at 50% 45%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 65%);
+        background-attachment: fixed;
+      }
+      .wrap{ max-width:920px; margin:0 auto; padding:18px 16px 64px; }
+      /* ---------- Header ---------- */
+      .masthead{ text-align:center; padding:26px 10px 8px; }
+      .arabic-title{
+        font-family:"Amiri", serif; font-weight:700; line-height:1.15; margin:0;
+        font-size:clamp(64px, 15vw, 118px); color:var(--accent);
+        text-shadow:0 0 34px color-mix(in srgb, var(--accent) 45%, transparent);
+      }
+      .brand{ font-family:"Cinzel", serif; font-weight:800; letter-spacing:.14em; font-size:clamp(24px,5.4vw,38px); margin:2px 0 4px;
+        text-shadow:0 0 22px color-mix(in srgb, var(--accent2) 40%, transparent); }
+      .brand-sub{ font-family:"Cinzel", serif; letter-spacing:.3em; font-size:clamp(10px,2.4vw,13px); color:var(--muted); text-transform:uppercase; }
+      .fest{ margin-top:10px; font-size:13.5px; color:var(--muted); font-weight:600; }
+      .fest b{ color:var(--ink); }
+      .tagline{ margin-top:6px; font-family:"Cinzel", serif; font-size:clamp(14px,3.4vw,19px); letter-spacing:.12em; color:var(--accent2); font-weight:700; }
+      .rule{ height:2px; border:0; margin:18px auto 4px; max-width:520px;
+        background:linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent); }
+      /* ---------- Screens ---------- */
+      .screen{ display:none; }
+      .screen.active{ display:block; animation:fadein .3s ease; }
+      @keyframes fadein{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+      @media (prefers-reduced-motion: reduce){ .screen.active{ animation:none; } }
+      .card{
+        background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+        padding:20px; margin:16px 0;
+        box-shadow:0 12px 32px rgba(0,0,0,.22), 0 0 26px color-mix(in srgb, var(--accent) 10%, transparent);
+        transition:box-shadow .3s ease, border-color .3s ease, background .35s ease;
+      }
+      .card h2{ font-family:"Cinzel", serif; font-size:20px; margin:0 0 6px; letter-spacing:.04em; }
+      .card h3{ font-family:"Cinzel", serif; font-size:16px; margin:0 0 8px; letter-spacing:.04em; }
+      .muted{ color:var(--muted); }
+      .small{ font-size:13px; }
+      /* ---------- Buttons & inputs ---------- */
+      .btn{
+        appearance:none; border:1px solid var(--line); background:var(--surface2); color:var(--ink);
+        font:inherit; font-weight:700; border-radius:12px; padding:10px 18px; cursor:pointer;
+        display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px;
+        transition:transform .12s ease, background .2s, border-color .2s;
+      }
+      .btn:hover{ border-color:var(--accent); }
+      .btn:active{ transform:scale(.98); }
+      .btn.primary{ background:linear-gradient(135deg, var(--accent), var(--accent2)); border-color:transparent; color:#fff;
+        box-shadow:0 6px 22px color-mix(in srgb, var(--accent) 45%, transparent); }
+      .btn.primary:hover{ filter:brightness(1.12); }
+      .btn.ghost2{ background:transparent; }
+      .btn.danger{ background:transparent; border-color:var(--bad); color:var(--bad); }
+      .btn.good{ background:var(--good); border-color:var(--good); color:#fff; }
+      .btn.big{ font-size:17px; padding:14px 26px; border-radius:14px; width:100%; }
+      .btn:disabled{ opacity:.45; cursor:not-allowed; }
+      label.fld{ display:block; font-weight:700; font-size:13.5px; margin:14px 0 6px; }
+      input[type="text"], input[type="password"], input[type="number"], textarea, select{
+        width:100%; font:inherit; color:var(--ink); background:var(--bg);
+        border:1.5px solid var(--line); border-radius:12px; padding:11px 13px; min-height:46px;
+      }
+      input:focus, textarea:focus, select:focus{ outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent); }
+      textarea{ min-height:110px; resize:vertical; }
+      .tabs{ display:flex; gap:8px; margin-bottom:6px; }
+      .tabs .btn{ flex:1; }
+      .tabs .btn.sel{ background:var(--accent); border-color:var(--accent); color:#fff; }
+      .msg{ border-radius:12px; padding:11px 14px; font-weight:700; font-size:14px; margin-top:14px; display:none; }
+      .msg.err{ display:block; background:color-mix(in srgb, var(--bad) 16%, transparent); border:1px solid var(--bad); color:var(--ink); }
+      .msg.ok{ display:block; background:color-mix(in srgb, var(--good) 16%, transparent); border:1px solid var(--good); color:var(--ink); }
+      .adno-big{
+        font-family:"Cinzel", serif; font-size:clamp(34px,9vw,52px); font-weight:800; letter-spacing:.18em;
+        color:var(--accent2); text-align:center; margin:6px 0;
+      }
+      /* ---------- Theme picker ---------- */
+      .theme-head{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+      .theme-selector{
+        flex:1; min-width:220px; display:flex; align-items:center; gap:12px; text-align:left;
+        background:var(--surface2); border:1.5px solid var(--accent); border-radius:14px;
+        padding:10px 14px; cursor:pointer; color:var(--ink); font:inherit; min-height:52px;
+      }
+      .swatch{ width:34px; height:34px; border-radius:10px; flex:none; border:2px solid rgba(255,255,255,.35);
+        background:linear-gradient(135deg, var(--sw1,#888), var(--sw2,#444)); }
+      .theme-selector .tname{ font-weight:800; font-size:16px; }
+      .theme-selector .tsub{ font-size:12px; color:var(--muted); font-weight:600; }
+      .theme-selector .chev{ margin-left:auto; font-size:18px; transition:transform .2s; }
+      .theme-picker.open .chev{ transform:rotate(180deg); }
+      .theme-list{ display:none; margin-top:12px; }
+      .theme-picker.open .theme-list{ display:block; }
+      .theme-grid{
+        display:grid; grid-template-columns:repeat(auto-fill, minmax(128px,1fr)); gap:8px;
+        max-height:320px; overflow:auto; padding:4px; border:1px dashed var(--line); border-radius:12px;
+      }
+      .tchip{
+        display:flex; align-items:center; gap:8px; padding:8px 9px; border-radius:10px; cursor:pointer;
+        background:var(--surface2); border:1.5px solid var(--line); color:var(--ink); font:inherit;
+        font-size:12.5px; font-weight:700; text-align:left; min-height:44px;
+      }
+      .tchip .swatch{ width:22px; height:22px; border-radius:7px; }
+      .tchip.sel{ border-color:var(--accent); box-shadow:0 0 0 2px color-mix(in srgb, var(--accent) 45%, transparent); }
+      .theme-done{ margin-top:12px; width:100%; }
+      /* ---------- Home choices ---------- */
+      .seg{ display:flex; gap:8px; flex-wrap:wrap; }
+      .seg .btn{ flex:1; min-width:100px; }
+      .seg .btn.sel{ background:var(--accent); border-color:var(--accent); color:#fff; }
+      .paper-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+      @media (max-width:560px){ .paper-grid{ grid-template-columns:1fr; } }
+      .paper-card{
+        border:2px solid var(--line); border-radius:14px; padding:16px; cursor:pointer; background:var(--surface2);
+        text-align:left; color:var(--ink); font:inherit; width:100%;
+      }
+      .paper-card.sel{ border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+      .paper-card .pt{ font-family:"Cinzel", serif; font-weight:800; font-size:18px; }
+      .userbar{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:space-between; }
+      .userchip{ font-weight:800; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+      .userchip .adno{ color:var(--accent2); font-family:"Cinzel", serif; letter-spacing:.08em; }
+      /* ---------- Player avatars — cartoon characters (chosen from the Ad.No) ---------- */
+      .avatar{
+        display:inline-flex; flex:none; align-items:center; justify-content:center;
+        width:46px; height:46px; border-radius:50%; overflow:hidden;
+        border:2.5px solid var(--accent2); background:var(--surface2);
+        box-shadow:0 0 14px color-mix(in srgb, var(--accent2) 35%, transparent);
+        vertical-align:middle;
+      }
+      .avatar .av-emoji{ line-height:1; font-size:27px; }
+      .avatar.av-sm{ width:34px; height:34px; border-width:2px; }
+      .avatar.av-sm .av-emoji{ font-size:20px; }
+      .avatar.av-lg{ width:96px; height:96px; border-width:3px; }
+      .avatar.av-lg .av-emoji{ font-size:58px; }
+      .char-name{ color:var(--accent); font-weight:800; }
+      .avatar-caption{
+        font-family:"Cinzel", serif; font-weight:700; font-size:13.5px; letter-spacing:.14em;
+        color:var(--accent2); text-align:center; margin-top:7px;
+        text-shadow:0 0 12px color-mix(in srgb, var(--accent2) 55%, transparent);
+      }
+      #userAvatar{ display:inline-flex; flex-direction:column; align-items:center; gap:2px; }
+      #userAvatar .avatar-caption{ margin-top:2px; font-size:11px; letter-spacing:.1em; }
+      .char-big{ font-family:"Cinzel", serif; font-weight:800; font-size:21px; margin-top:8px; }
+      .char-sub{ color:var(--muted); font-weight:700; font-size:13.5px; }
+      .hud-user{ display:flex; align-items:center; gap:8px; font-weight:800; font-size:13px; }
+      .hud-user .adno{ color:var(--accent2); font-family:"Cinzel", serif; letter-spacing:.06em; font-size:12px; }
+      .res-avatar{ display:flex; justify-content:center; margin:10px 0 2px; }
+      /* ---------- Dancing avatar — results reaction by final percentage ---------- */
+      .dancer{ position:relative; display:inline-block; line-height:0; }
+      .dancer .fx{ position:absolute; z-index:2; pointer-events:none; line-height:1; }
+      /* Below 10% — sadness + crying: droop, sad shake, falling tears */
+      .dancer-cry .avatar{ animation:crydroop 1.7s ease-in-out infinite; filter:saturate(.65) brightness(.93); }
+      @keyframes crydroop{
+        0%,100%{ transform:translateY(5px) rotate(-3deg) scale(.97); }
+        30%{ transform:translateY(8px) rotate(2.5deg) scale(.95); }
+        55%{ transform:translateY(4px) rotate(-4deg) scale(.97); }
+        80%{ transform:translateY(7px) rotate(3deg) scale(.96); }
+      }
+      .tear{ font-size:20px; top:52%; opacity:0; animation:tearfall 1.25s ease-in infinite; }
+      .tear.t1{ left:6%; }
+      .tear.t2{ right:6%; animation-delay:.45s; }
+      .tear.t3{ left:44%; animation-delay:.85s; font-size:15px; }
+      @keyframes tearfall{ 0%{ transform:translateY(-6px) scale(.7); opacity:0; } 25%{ opacity:1; } 100%{ transform:translateY(46px) scale(1); opacity:0; } }
+      /* 10–50% — pashchathabham (regret): slow, downcast, head-down shake */
+      .dancer-regret .avatar{ animation:regretshake 3s ease-in-out infinite; filter:saturate(.8); }
+      @keyframes regretshake{
+        0%,100%{ transform:translateY(6px) rotate(-4deg); }
+        25%{ transform:translateY(7px) rotate(-1deg); }
+        50%{ transform:translateY(6px) rotate(4deg); }
+        75%{ transform:translateY(7px) rotate(1deg); }
+      }
+      /* 50–90% — punjiri (smile): happy glow, one gentle full spin, then a happy bounce */
+      .dancer-smile .avatar{ animation:smilespin 1.3s ease-out .15s 1 both, smilebounce 1.5s ease-in-out 1.6s infinite, smileglow 1.5s ease-in-out 1.6s infinite; }
+      @keyframes smilespin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+      @keyframes smilebounce{ 0%,100%{ transform:translateY(0); } 40%{ transform:translateY(-10px); } 65%{ transform:translateY(1px); } }
+      @keyframes smileglow{ 0%,100%{ box-shadow:0 0 14px color-mix(in srgb, var(--warn) 45%, transparent); } 50%{ box-shadow:0 0 36px color-mix(in srgb, var(--warn) 85%, transparent); } }
+      /* Above 90% — MEGA DANCE: fast bounce, spin, wiggle and zoom pulses */
+      .dancer-mega .avatar{ animation:megadance .95s ease-in-out infinite; box-shadow:0 0 34px color-mix(in srgb, var(--accent2) 65%, transparent); }
+      @keyframes megadance{
+        0%{ transform:translateY(0) rotate(0deg) scale(1); }
+        20%{ transform:translateY(-18px) rotate(14deg) scale(1.1); }
+        40%{ transform:translateY(0) rotate(-14deg) scale(1.22); }
+        60%{ transform:translateY(-14px) rotate(180deg) scale(1.08); }
+        80%{ transform:translateY(0) rotate(360deg) scale(1.18); }
+        100%{ transform:translateY(0) rotate(360deg) scale(1); }
+      }
+      .spark{ font-size:19px; animation:sparkfloat 1.5s ease-in-out infinite; }
+      .spark.s1{ left:-14px; top:2px; }
+      .spark.s2{ right:-14px; top:10px; animation-delay:.4s; }
+      .spark.s3{ right:-6px; bottom:-4px; animation-delay:.8s; font-size:15px; }
+      .dancer-mega .spark{ animation-duration:.8s; font-size:22px; }
+      @keyframes sparkfloat{ 0%,100%{ transform:translateY(0) scale(.8) rotate(0deg); opacity:.65; } 50%{ transform:translateY(-7px) scale(1.2) rotate(25deg); opacity:1; } }
+      @media (prefers-reduced-motion: reduce){
+        .dancer .avatar, .tear, .spark{ animation:none !important; }
+        .tear{ display:none; }
+      }
+      .auth-avatar{ display:flex; justify-content:center; margin-top:14px; }
+      details.rounds-list{ margin-top:8px; }
+      details.rounds-list summary{ cursor:pointer; font-weight:800; padding:8px 0; }
+      details.rounds-list ol{ margin:6px 0 0; padding-left:22px; columns:2; column-gap:28px; }
+      @media (max-width:560px){ details.rounds-list ol{ columns:1; } }
+      details.rounds-list li{ padding:2.5px 0; font-size:13.5px; break-inside:avoid; }
+      /* ---------- Game ---------- */
+      .gamebar{
+        position:sticky; top:8px; z-index:30; background:var(--surface); border:1px solid var(--line);
+        border-radius:14px; padding:10px 12px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+        box-shadow:0 10px 26px rgba(0,0,0,.25);
+      }
+      .gamebar .gtitle{ font-family:"Cinzel", serif; font-weight:800; font-size:15px; margin-right:auto; }
+      .clock{ font-family:"Cinzel", serif; font-weight:800; font-size:19px; letter-spacing:.06em; padding:6px 12px;
+        border-radius:10px; background:var(--bg); border:1.5px solid var(--line); }
+      .clock.low{ color:var(--bad); border-color:var(--bad); animation:pulse 1s infinite; }
+      @keyframes pulse{ 50%{ opacity:.55; } }
+      @media (prefers-reduced-motion: reduce){ .clock.low{ animation:none; } }
+      .scorechip{ font-weight:800; font-size:13.5px; background:var(--surface2); border:1px solid var(--line);
+        border-radius:10px; padding:7px 11px; }
+      .ctl{ display:flex; gap:8px; flex-wrap:wrap; }
+      .ctl .btn{ min-height:40px; padding:7px 13px; font-size:13.5px; }
+      .phasebar{ height:9px; background:var(--surface2); border-radius:99px; overflow:hidden; margin:14px 0 4px; border:1px solid var(--line); }
+      .phasebar > div{ height:100%; background:linear-gradient(90deg, var(--accent), var(--accent2)); width:100%; transition:width .25s linear; }
+      .phase-label{ display:flex; justify-content:space-between; font-size:12.5px; font-weight:800; color:var(--muted); }
+      .showbox{
+        background:var(--surface2); border:1.5px solid var(--line); border-radius:14px; padding:20px 16px; margin-top:12px;
+        text-align:center;
+      }
+      .judge-note{
+        text-align:left; background:color-mix(in srgb, var(--warn) 14%, transparent); border:1.5px solid var(--warn);
+        border-radius:12px; padding:12px 14px; font-size:14px; margin-bottom:14px;
+      }
+      .judge-note b{ color:var(--warn); }
+      .wordgrid{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+      .wchip{
+        background:var(--bg); border:1.5px solid var(--accent); color:var(--ink); border-radius:12px;
+        padding:10px 16px; font-weight:800; font-size:clamp(16px,4.4vw,21px);
+      }
+      .wchip .num{ color:var(--accent2); font-size:.72em; margin-right:7px; font-family:"Cinzel", serif; }
+      .bigseq{ font-family:"Cinzel", serif; font-weight:800; letter-spacing:.22em; font-size:clamp(26px,7.5vw,44px); word-break:break-all; }
+      .emoji-grid{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; font-size:clamp(38px,9vw,54px); }
+      .emoji-cell{ background:var(--bg); border:1.5px solid var(--line); border-radius:14px; padding:8px 12px; line-height:1.15; }
+      .emoji-cell .cap{ display:block; font-size:12px; font-family:"Manrope",sans-serif; font-weight:700; color:var(--muted); margin-top:2px; }
+      .colorseq{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+      .colorbox{ width:clamp(44px,11vw,64px); height:clamp(44px,11vw,64px); border-radius:14px; border:2px solid rgba(255,255,255,.4); }
+      .passage{ text-align:left; font-size:16.5px; line-height:1.75; max-width:640px; margin:0 auto; }
+      .passage p{ margin:0 0 10px; }
+      .sentence-big{ font-size:clamp(19px,5vw,25px); font-weight:700; line-height:1.55; max-width:640px; margin:0 auto; }
+      .pairrows{ display:grid; gap:9px; max-width:460px; margin:0 auto; text-align:left; }
+      .pairrow{ display:flex; justify-content:space-between; gap:12px; background:var(--bg); border:1.5px solid var(--line);
+        border-radius:12px; padding:10px 15px; font-weight:800; font-size:16.5px; }
+      .pairrow .r{ color:var(--accent2); font-family:"Cinzel", serif; }
+      .gridboard{ display:grid; gap:7px; justify-content:center; margin:0 auto; }
+      .gcell{ width:clamp(46px,12vw,62px); height:clamp(46px,12vw,62px); border-radius:12px; border:1.5px solid var(--line);
+        background:var(--bg); display:flex; align-items:center; justify-content:center; font-size:30px; }
+      .gcell.lit{ background:var(--accent); border-color:var(--accent); box-shadow:0 0 14px color-mix(in srgb, var(--accent) 60%, transparent); }
+      button.gcell{ cursor:pointer; color:var(--ink); font-family:inherit; }
+      button.gcell.picked{ border-color:var(--accent2); box-shadow:0 0 0 3px color-mix(in srgb, var(--accent2) 45%, transparent); }
+      /* recall widgets */
+      .q{ margin:0 0 20px; }
+      .q .qp{ font-weight:800; font-size:16px; margin-bottom:10px; }
+      .opts{ display:grid; gap:8px; }
+      .opt{
+        text-align:left; background:var(--surface2); border:1.5px solid var(--line); border-radius:12px;
+        padding:11px 14px; cursor:pointer; color:var(--ink); font:inherit; font-weight:700; min-height:48px;
+        display:flex; align-items:center; gap:10px;
+      }
+      .opt.sel{ border-color:var(--accent); background:color-mix(in srgb, var(--accent) 18%, var(--surface2)); }
+      .opt .face{ font-size:28px; }
+      .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+      .chip{
+        background:var(--surface2); border:1.5px solid var(--line); border-radius:99px; padding:9px 15px;
+        cursor:pointer; color:var(--ink); font:inherit; font-weight:700; min-height:44px;
+      }
+      .chip.sel{ border-color:var(--accent); background:color-mix(in srgb, var(--accent) 20%, var(--surface2)); }
+      .seqout{
+        min-height:52px; border:1.5px dashed var(--line); border-radius:12px; padding:8px 10px; display:flex;
+        flex-wrap:wrap; gap:7px; align-items:center; margin-bottom:10px; background:var(--bg);
+      }
+      .seqout .chip{ cursor:pointer; }
+      .seqout .empty-note{ color:var(--muted); font-size:13px; font-weight:600; padding:4px; }
+      .numin{ max-width:130px; text-align:center; font-size:18px; font-weight:800; }
+      .countrow{ display:flex; align-items:center; gap:12px; margin-bottom:10px; font-size:26px; }
+      .countrow .lbl{ font-size:15px; font-weight:800; font-family:"Manrope",sans-serif; }
+      /* ---------- Results ---------- */
+      .pct-big{ font-family:"Cinzel", serif; font-weight:800; font-size:clamp(58px,15vw,96px); text-align:center;
+        color:var(--accent); line-height:1; margin:6px 0 2px; }
+      .marks-big{ text-align:center; font-size:19px; font-weight:800; }
+      table.marks{ width:100%; border-collapse:collapse; font-size:14px; }
+      table.marks th, table.marks td{ padding:8px 9px; border-bottom:1px solid var(--line); text-align:left; }
+      table.marks th{ font-family:"Cinzel", serif; letter-spacing:.05em; font-size:12.5px; color:var(--muted); }
+      table.marks td.r, table.marks th.r{ text-align:right; }
+      .bar-wrap{ background:var(--surface2); border-radius:99px; height:8px; overflow:hidden; min-width:70px; }
+      .bar-fill{ height:100%; background:linear-gradient(90deg, var(--accent), var(--accent2)); }
+      .lb-row{ display:flex; gap:10px; align-items:center; padding:9px 4px; border-bottom:1px solid var(--line); font-size:14px; flex-wrap:wrap; }
+      .lb-row .rank{ font-family:"Cinzel", serif; font-weight:800; color:var(--accent2); width:30px; }
+      .lb-row .who{ font-weight:800; }
+      .lb-row .sc{ margin-left:auto; font-weight:800; }
+      .btnrow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+      .btnrow .btn{ flex:1; min-width:150px; }
+      /* ---------- Brain Training Modes ---------- */
+      .brain-head{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between; }
+      .brain-head h2{ margin:0; }
+      .total-chip{
+        font-weight:800; font-size:15px; border-radius:12px; padding:9px 14px; color:#fff;
+        background:linear-gradient(135deg, var(--accent), var(--accent2));
+        box-shadow:0 0 20px color-mix(in srgb, var(--accent) 50%, transparent);
+      }
+      .mode-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(min(248px,100%),1fr)); gap:12px; margin-top:6px; }
+      .mode-card{
+        text-align:left; color:var(--ink); font:inherit; cursor:pointer; width:100%;
+        background:var(--surface2); border:1.5px solid var(--line); border-radius:16px; padding:16px;
+        transition:transform .18s ease, border-color .2s, box-shadow .25s;
+      }
+      .mode-card:hover{ border-color:var(--accent); transform:translateY(-3px);
+        box-shadow:0 12px 26px rgba(0,0,0,.25), 0 0 22px color-mix(in srgb, var(--accent) 35%, transparent); }
+      .mode-card:active{ transform:scale(.98); }
+      @media (prefers-reduced-motion: reduce){ .mode-card{ transition:none; } .mode-card:hover{ transform:none; } }
+      .mode-ico{
+        display:inline-flex; align-items:center; justify-content:center; min-width:52px; height:52px; padding:0 10px;
+        border-radius:14px; font-family:"Cinzel", serif; font-weight:800; font-size:19px; color:#fff;
+        background:linear-gradient(135deg, var(--accent), var(--accent2));
+        box-shadow:0 0 16px color-mix(in srgb, var(--accent) 45%, transparent); margin-bottom:10px;
+      }
+      .mode-card .mt-name{ font-family:"Cinzel", serif; font-weight:800; font-size:16.5px; letter-spacing:.03em; }
+      .mode-card .mt-desc{ color:var(--muted); font-size:13px; font-weight:600; margin:5px 0 8px; line-height:1.45; }
+      .mode-card .mt-best{ font-size:12.5px; font-weight:800; color:var(--accent2); }
+      .pts-big{ font-family:"Cinzel", serif; font-weight:800; font-size:clamp(44px,11vw,64px); text-align:center;
+        color:var(--accent2); line-height:1.05; margin:4px 0;
+        text-shadow:0 0 26px color-mix(in srgb, var(--accent2) 45%, transparent); }
+      .pts-lines{ text-align:center; font-weight:700; font-size:15px; line-height:1.7; }
+      .padgrid{ display:grid; grid-template-columns:repeat(2, minmax(96px,140px)); gap:12px; justify-content:center; }
+      .pad{
+        height:98px; border-radius:18px; border:2px solid rgba(255,255,255,.35); cursor:pointer;
+        opacity:.45; transition:opacity .15s, box-shadow .15s, filter .15s; font:inherit;
+      }
+      .pad.on{ opacity:1; filter:brightness(1.5); box-shadow:0 0 30px var(--padc, #fff); }
+      .pad:disabled{ cursor:default; }
+      .gcell.flash{ background:var(--accent2); border-color:var(--accent2);
+        box-shadow:0 0 20px color-mix(in srgb, var(--accent2) 65%, transparent); }
+      /* ---------- Joy layer: badges, wheel, gallery, confetti ---------- */
+      .badge-row{ display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-top:8px; }
+      @media (max-width:480px){ .badge-row{ grid-template-columns:repeat(2, 1fr); } }
+      .badge{
+        text-align:center; border:1.5px solid var(--line); border-radius:14px; padding:12px 8px 10px;
+        background:var(--surface2); opacity:.42; filter:grayscale(.85); transition:opacity .3s, filter .3s, box-shadow .3s, border-color .3s;
+      }
+      .badge .b-ico{ font-size:30px; line-height:1.1; }
+      .badge .b-name{ font-weight:800; font-size:13px; margin-top:3px; }
+      .badge .b-how{ font-size:11px; color:var(--muted); font-weight:600; line-height:1.35; margin-top:2px; }
+      .badge.lit{ opacity:1; filter:none; border-color:var(--accent2);
+        box-shadow:0 0 18px color-mix(in srgb, var(--accent2) 35%, transparent); }
+      .badge.pop{ animation:badgepop .6s ease; }
+      @keyframes badgepop{ 30%{ transform:scale(1.12) rotate(-2deg); } 60%{ transform:scale(.97); } }
+      .tip-text{ font-size:15.5px; font-weight:700; line-height:1.55; margin:4px 0 0; }
+      .wheel-wrap{ display:flex; flex-direction:column; align-items:center; gap:6px; margin-top:8px; }
+      .wheel-stage{ position:relative; width:min(260px, 78vw); aspect-ratio:1; }
+      .wheel-pointer{ position:absolute; left:50%; top:-8px; transform:translateX(-50%); z-index:3; font-size:26px; color:var(--accent2);
+        text-shadow:0 2px 8px rgba(0,0,0,.4); }
+      .wheel{
+        width:100%; height:100%; border-radius:50%; border:5px solid var(--accent);
+        box-shadow:0 0 30px color-mix(in srgb, var(--accent) 45%, transparent), inset 0 0 24px rgba(0,0,0,.25);
+        transition:transform 4.2s cubic-bezier(.12,.8,.16,1); position:relative; overflow:hidden;
+      }
+      .wheel .wlab{ position:absolute; left:50%; top:50%; font-weight:800; font-size:14px; color:#fff;
+        text-shadow:0 1px 4px rgba(0,0,0,.55); transform-origin:0 0; white-space:nowrap; }
+      .wheel-hub{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:2;
+        width:64px; height:64px; border-radius:50%; background:var(--surface); border:3px solid var(--accent2);
+        display:flex; align-items:center; justify-content:center; font-size:28px; }
+      .spin-result{ font-weight:800; font-size:16px; min-height:24px; text-align:center; }
+      .gal-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(86px,1fr)); gap:8px; margin-top:12px;
+        max-height:380px; overflow:auto; padding:4px; border:1px dashed var(--line); border-radius:12px; }
+      .gal-cell{ text-align:center; border:1.5px solid var(--line); border-radius:12px; padding:10px 4px 8px; background:var(--surface2); }
+      .gal-cell .g-emoji{ font-size:30px; line-height:1.15; }
+      .gal-cell .g-name{ font-size:10.5px; font-weight:700; color:var(--muted); line-height:1.25; margin-top:3px; }
+      .gal-cell.mine{ border-color:var(--accent2); box-shadow:0 0 0 2px color-mix(in srgb, var(--accent2) 45%, transparent), 0 0 16px color-mix(in srgb, var(--accent2) 30%, transparent); }
+      .gal-cell.mine .g-name{ color:var(--ink); }
+      .gal-cell .g-star{ font-size:14px; }
+      .gal-cell .g-cap{ font-size:9.5px; font-weight:800; letter-spacing:.04em; color:var(--accent2); margin-top:2px; }
+      .mood-line{ text-align:center; font-size:16.5px; font-weight:800; line-height:1.5; margin:10px auto 2px; max-width:520px; }
+      .btn.celebrate{ background:linear-gradient(120deg, var(--accent), var(--accent2), var(--accent)); background-size:220% 100%;
+        border-color:transparent; color:#fff; animation:celeshift 2.6s linear infinite;
+        box-shadow:0 8px 26px color-mix(in srgb, var(--accent2) 45%, transparent); font-size:16px; }
+      @keyframes celeshift{ to{ background-position:220% 0; } }
+      @media (prefers-reduced-motion: reduce){ .btn.celebrate{ animation:none; } .badge.pop{ animation:none; } .wheel{ transition-duration:.6s; } }
+      .cheer-banner{
+        display:none; text-align:center; font-weight:800; font-size:15.5px; border-radius:12px; padding:11px 14px; margin-top:12px;
+        background:color-mix(in srgb, var(--accent2) 16%, transparent); border:1.5px solid var(--accent2);
+      }
+      .cheer-banner.show{ display:block; animation:fadein .3s ease; }
+      #confettiCanvas{ position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:120; }
+      /* ---------- Overlays ---------- */
+      .overlay{
+        position:fixed; inset:0; background:rgba(5,5,15,.72); backdrop-filter:blur(3px);
+        display:none; align-items:center; justify-content:center; z-index:80; padding:18px;
+      }
+      .overlay.open{ display:flex; }
+      .overlay .box{ background:var(--surface); border:1.5px solid var(--accent); border-radius:18px; padding:26px 22px;
+        max-width:420px; width:100%; text-align:center; box-shadow:0 24px 60px rgba(0,0,0,.5); }
+      .overlay .box h2{ font-family:"Cinzel", serif; margin:0 0 8px; }
+      .toast{
+        position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px); opacity:0;
+        background:var(--surface); color:var(--ink); border:1.5px solid var(--accent); border-radius:12px;
+        padding:11px 18px; font-weight:800; font-size:14px; z-index:99; pointer-events:none; transition:.25s; max-width:92vw; text-align:center;
+      }
+      .toast.show{ opacity:1; transform:translateX(-50%); }
+      .hidden{ display:none !important; }
+      .center{ text-align:center; }
+      .mt{ margin-top:14px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="masthead">
+        <h1 class="arabic-title" lang="ar" dir="rtl">ذَاكِرَة</h1>
+        <div class="brand">DHAAKIRA</div>
+        <div class="brand-sub">The Grand Memory Arena</div>
+        <div class="fest"><b>SIBAQ'26</b> – National Arts Fest · <b>Darul Huda Islamic University</b></div>
+        <div class="tagline">Observe. Remember. Recall.</div>
+        <hr class="rule" />
+      </header>
+
+      <!-- ============ AUTH ============ -->
+      <section id="screen-auth" class="screen active">
+        <div class="card">
+          <h2 id="authTitle">Sign in to enter the Arena</h2>
+          <p class="muted small" style="margin-top:2px;">New player? Sign up — a random 7-digit <b>Ad.No</b> is allotted to you automatically, along with <b>your own cartoon character avatar</b> — one of 124 famous cartoon characters, chosen from that Ad.No, so no two players share an avatar and you get the same character back at every sign-in. Accounts are kept in this tab for this visit.</p>
+          <div class="tabs" role="tablist">
+            <button class="btn sel" id="tabIn" type="button">Sign In</button>
+            <button class="btn" id="tabUp" type="button">Sign Up</button>
+          </div>
+          <label class="fld" for="authName">Your name</label>
+          <input type="text" id="authName" autocomplete="username" placeholder="e.g. Afeef" />
+          <label class="fld" for="authPass">Password</label>
+          <input type="password" id="authPass" autocomplete="current-password" placeholder="Your password" />
+          <div id="adnoReveal" class="hidden">
+            <div class="auth-avatar" id="adnoAvatar"></div>
+            <div class="avatar-caption">This is your avatar</div>
+            <div class="center" id="adnoChar"></div>
+            <p class="center muted" style="margin:16px 0 0; font-weight:800;">This is your character — yours alone, chosen from your Ad.No!<br />Your Ad.No — note it down!</p>
+            <div class="adno-big" id="adnoValue">0000000</div>
+          </div>
+          <div class="msg" id="authMsg"></div>
+          <button class="btn primary big mt" id="authGo" type="button">Sign In</button>
+          <button class="btn ghost2 big mt" id="downloadBtnAuth" type="button">⬇ Download this app — one HTML file, works offline</button>
+        </div>
+      </section>
+
+      <!-- ============ HOME ============ -->
+      <section id="screen-home" class="screen">
+        <div class="card">
+          <div class="userbar">
+            <div class="userchip"><span id="userAvatar"></span><span><span id="userName">Player</span> · Ad.No <span class="adno" id="userAdno">0000000</span><br /><span class="char-name" id="userChar"></span></span></div>
+            <button class="btn" id="signOutBtn" type="button">Sign out</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="brain-head">
+            <h2>🏅 My Badges</h2>
+            <span class="muted small" style="font-weight:800;"><span id="badgeCount">0</span> / 6 earned</span>
+          </div>
+          <p class="muted small" style="margin-top:4px;">Badges light up as you play — they stay lit for this visit. Collect all six!</p>
+          <div class="badge-row" id="badgeRow"></div>
+        </div>
+
+        <div class="card">
+          <h3>💡 Brain Tip of the Day</h3>
+          <p class="tip-text" id="brainTip"></p>
+          <button class="btn mt" id="tipNext" type="button">🔄 Another tip</button>
+        </div>
+
+        <div class="card theme-picker" id="themePicker">
+          <div class="theme-head">
+            <button class="theme-selector" id="themeSelector" type="button" aria-expanded="false">
+              <span class="swatch" id="curSwatch"></span>
+              <span><span class="tname" id="curThemeName">Neon</span><br /><span class="tsub">Theme — tap to browse all 100</span></span>
+              <span class="chev">▾</span>
+            </button>
+          </div>
+          <div class="theme-list" id="themeList">
+            <div class="theme-grid" id="themeGrid"></div>
+            <button class="btn primary theme-done" id="themeDone" type="button">✓ Done — keep this theme</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Choose your paper</h2>
+          <div class="paper-grid">
+            <button class="paper-card sel" id="paperDhaakira" type="button">
+              <div class="pt">DHAAKIRA</div>
+              <p class="muted small" style="margin:6px 0 0;">The Grand Memory Arena — <b>30 rounds</b>, 100 marks, one 30-minute clock.</p>
+            </button>
+            <button class="paper-card" id="paperBno14" type="button">
+              <div class="pt">BNO14 · Memory Test</div>
+              <p class="muted small" style="margin:6px 0 0;">The official-style paper — <b>5 stages</b> with judge's instructions, 100 marks, 30 minutes.</p>
+            </button>
+          </div>
+          <label class="fld">Level</label>
+          <div class="seg" id="levelSeg">
+            <button class="btn sel" data-level="easy" type="button">Easy</button>
+            <button class="btn" data-level="medium" type="button">Medium</button>
+            <button class="btn" data-level="hard" type="button">Hard</button>
+          </div>
+          <p class="muted small">100 marks · 30 minutes on one clock · auto-submits when time ends · fresh material every play · unlimited replays · automatic scoring, no negative marking.</p>
+          <button class="btn primary big" id="startBtn" type="button">▶ Enter the Arena</button>
+          <button class="btn big mt" id="downloadBtnHome" type="button">⬇ Download this app — one HTML file, works offline</button>
+          <details class="rounds-list">
+            <summary>See all 30 rounds in order</summary>
+            <ol id="roundNamesList"></ol>
+          </details>
+        </div>
+
+        <div class="card">
+          <div class="brain-head">
+            <h2>🧠 Brain Training Modes</h2>
+            <div class="total-chip">⭐ Total score: <span id="btHomeTotal">0</span> pts</div>
+          </div>
+          <p class="muted small" style="margin-top:6px;">Six quick memory challenges, separate from the Arena. Every correct answer earns <b>points</b>, fast recalls earn a <b>speed bonus</b>, and each stage gets harder than the last. The Arena above keeps its own 100-marks scoring.</p>
+          <label class="fld">Brain training difficulty</label>
+          <div class="seg" id="btLevelSeg">
+            <button class="btn sel" data-bdiff="easy" type="button">Easy</button>
+            <button class="btn" data-bdiff="medium" type="button">Medium</button>
+            <button class="btn" data-bdiff="hard" type="button">Hard</button>
+          </div>
+          <div class="mode-grid" id="btGrid"></div>
+        </div>
+
+        <div class="card">
+          <div class="brain-head">
+            <h2>📅 Challenge of the Day</h2>
+            <span class="total-chip" id="dailyTick" style="display:none;">✓ Done today!</span>
+          </div>
+          <p style="font-weight:800; font-size:16.5px; margin:8px 0 2px;" id="dailyTitle">Today's challenge</p>
+          <p class="muted small" style="margin:0;" id="dailyDesc"></p>
+          <button class="btn primary big mt" id="dailyPlay" type="button">▶ Play today's challenge</button>
+          <p class="muted small" id="dailyDoneNote" style="display:none; margin:10px 0 0; font-weight:800;">🎉 Challenge complete for today — super work! A fresh one arrives tomorrow.</p>
+        </div>
+
+        <div class="card">
+          <h2 class="center">🎡 Lucky Spin</h2>
+          <p class="muted small center" style="margin-top:2px;">One free spin per visit! Whatever you win is added as <b>bonus points to your Brain Training total only</b> — Arena marks are never touched.</p>
+          <div class="wheel-wrap">
+            <div class="wheel-stage">
+              <div class="wheel-pointer">▼</div>
+              <div class="wheel" id="spinWheel"></div>
+              <div class="wheel-hub">🍀</div>
+            </div>
+            <div class="spin-result" id="spinResult"></div>
+            <button class="btn primary big" id="spinBtn" type="button" style="max-width:320px;">🎡 Spin the wheel!</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="brain-head">
+            <h2>🎭 Meet the Avatars</h2>
+            <button class="btn" id="galleryToggle" type="button" aria-expanded="false">Browse all 124</button>
+          </div>
+          <p class="muted small" style="margin-top:4px;">Every player gets one of these 124 cartoon characters as their avatar, chosen from their Ad.No. Yours wears a ⭐ star.</p>
+          <div id="galleryHost" class="hidden">
+            <div class="gal-grid" id="galleryGrid"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>🏆 Leaderboard — this visit</h3>
+          <div id="lbList"><p class="muted small">No finished games yet this visit. Be the first on the board!</p></div>
+        </div>
+      </section>
+
+      <!-- ============ GAME ============ -->
+      <section id="screen-game" class="screen">
+        <div class="gamebar">
+          <div class="gtitle" id="gTitle">Round 1 of 30</div>
+          <div class="hud-user" id="hudUser"></div>
+          <div class="scorechip" id="gScore">Score 0 / 100</div>
+          <div class="clock" id="gClock">30:00</div>
+          <div class="ctl">
+            <button class="btn" id="pauseBtn" type="button">⏸ Pause</button>
+            <button class="btn" id="quitBtn" type="button">Quit</button>
+            <button class="btn danger" id="stopBtn" type="button">■ Stop</button>
+          </div>
+        </div>
+        <div class="cheer-banner" id="cheerGame"></div>
+        <div id="phaseHost"></div>
+      </section>
+
+      <!-- ============ BRAIN TRAINING ============ -->
+      <section id="screen-brain" class="screen">
+        <div class="gamebar">
+          <div class="gtitle" id="btTitle">Brain Training</div>
+          <div class="hud-user" id="btHudUser"></div>
+          <div class="scorechip" id="btStage">Stage 1</div>
+          <div class="scorechip" id="btSession">Session 0 pts</div>
+          <div class="scorechip" id="btTotal">Total 0 pts</div>
+          <div class="ctl">
+            <button class="btn danger" id="btQuit" type="button">✕ End</button>
+          </div>
+        </div>
+        <div class="cheer-banner" id="cheerBrain"></div>
+        <div id="btHost"></div>
+      </section>
+
+      <!-- ============ RESULTS ============ -->
+      <section id="screen-results" class="screen">
+        <div class="card" id="resultsCard"></div>
+        <div class="card">
+          <h3>🏆 Leaderboard — this visit</h3>
+          <div id="lbList2"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Pause overlay -->
+    <div class="overlay" id="pauseOverlay">
+      <div class="box">
+        <h2>⏸ Paused</h2>
+        <p class="muted">The clock and the round are frozen. Take a breath.</p>
+        <button class="btn primary big" id="resumeBtn" type="button">▶ Resume</button>
+        <div class="btnrow">
+          <button class="btn" id="pauseQuitBtn" type="button">Quit game</button>
+          <button class="btn danger" id="pauseStopBtn" type="button">■ Stop &amp; see result</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirm overlay -->
+    <div class="overlay" id="confirmOverlay">
+      <div class="box">
+        <h2 id="confirmTitle">Are you sure?</h2>
+        <p class="muted" id="confirmText"></p>
+        <div class="btnrow">
+          <button class="btn" id="confirmNo" type="button">Keep playing</button>
+          <button class="btn danger" id="confirmYes" type="button">Yes</button>
+        </div>
+      </div>
+    </div>
+
+    <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+    <div class="toast" id="toast"></div>
+
+    <script>
+    "use strict";
+    /* ================= Utilities ================= */
+    const $ = id => document.getElementById(id);
+    const rnd = n => Math.floor(Math.random() * n);
+    const ri = (a, b) => a + rnd(b - a + 1);
+    function shuffle(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j=rnd(i+1); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+    function sample(arr, n){ return shuffle(arr).slice(0, n); }
+    function pickN(e, m, h){ return G.level === 'easy' ? e : G.level === 'medium' ? m : h; }
+    function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'), 2400); }
+    function fmtClock(s){ s=Math.max(0,Math.ceil(s)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+    function fmtMarks(x){ return (Math.round(x*10)/10).toString().replace(/\.0$/,''); }
+
+    /* ================= Data pools ================= */
+    const WORDS = ["Lantern","Compass","Meadow","Harbour","Velvet","Cinder","Marble","Saffron","Willow","Cobalt","Juniper","Tempest","Quiver","Zephyr","Onyx","Garnet","Hollow","Bramble","Copper","Sable","Thistle","Umbra","Falcon","Geyser","Hazel","Ivory","Jasper","Kestrel","Lagoon","Mica","Nectar","Obsidian","Pepper","Quartz","Rowan","Sorrel","Topaz","Umber","Violet","Walnut","Yonder","Zinc","Amber","Birch","Cedar","Dune","Ember","Flint","Grove","Heather","Indigo","Jute","Keel","Linden","Myrrh","Nickel","Opal","Pine","Ridge","Slate","Tundra","Urchin","Vine","Wicker","Yarn","Zenith","Anchor","Beacon","Cinder","Drizzle","Elm","Fable","Granite","Haven","Ink","Jewel","Kite","Loom","Mist","Noble","Orbit","Pearl","Quest","Reed","Summit","Timber","Unity","Vault","Whisper","Yield","Zeal","Atlas","Breeze","Canyon","Drift","Echo","Frost"];
+    const NAMES = ["Afeef","Siddiq","Maryam","Fathima","Yusuf","Ibrahim","Aisha","Bilal","Hana","Omar","Zainab","Idris","Layla","Hamza","Noor","Salman","Rania","Tariq","Imran","Sana","Arjun","Meera","Ravi","Ananya","Kiran","Divya","Rahul","Priya","Vikram","Nisha","John","Sarah","David","Emma","Lucas","Mia","Noah","Ava","Liam","Ella"];
+    const OBJECTS = [
+      {e:"🍎",n:"Apple"},{e:"🚗",n:"Car"},{e:"⚽",n:"Football"},{e:"📚",n:"Books"},{e:"🌙",n:"Moon"},{e:"⭐",n:"Star"},
+      {e:"🐪",n:"Camel"},{e:"⛵",n:"Boat"},{e:"🎁",n:"Gift"},{e:"🔑",n:"Key"},{e:"⌚",n:"Watch"},{e:"🍌",n:"Banana"},
+      {e:"🦁",n:"Lion"},{e:"🌹",n:"Rose"},{e:"🏰",n:"Castle"},{e:"🚲",n:"Bicycle"},{e:"🍇",n:"Grapes"},{e:"🐘",n:"Elephant"},
+      {e:"💎",n:"Diamond"},{e:"🎈",n:"Balloon"},{e:"🍓",n:"Strawberry"},{e:"🦋",n:"Butterfly"},{e:"🏺",n:"Vase"},{e:"🕯️",n:"Candle"},
+      {e:"🌴",n:"Palm tree"},{e:"🐢",n:"Turtle"},{e:"🍕",n:"Pizza"},{e:"🎸",n:"Guitar"},{e:"🚀",n:"Rocket"},{e:"🍩",n:"Doughnut"},
+      {e:"🦉",n:"Owl"},{e:"🌻",n:"Sunflower"},{e:"⛲",n:"Fountain"},{e:"🧲",n:"Magnet"},{e:"🪁",n:"Kite"},{e:"🍉",n:"Watermelon"}
+    ];
+    const COLORS = [
+      {n:"Red",c:"#e63946"},{n:"Blue",c:"#4361ee"},{n:"Green",c:"#2a9d3a"},{n:"Yellow",c:"#f4c20d"},
+      {n:"Purple",c:"#8338ec"},{n:"Orange",c:"#fb8500"},{n:"Pink",c:"#ef5da8"},{n:"Teal",c:"#0aa6a6"},
+      {n:"Brown",c:"#8a5a2b"},{n:"White",c:"#f1f1f1"},{n:"Black",c:"#22242a"},{n:"Sky Blue",c:"#4cc9f0"}
+    ];
+    const SYMBOLS = ["★","☾","♦","♠","♥","♣","▲","●","■","◆","✿","☀","⚡","✚","♪","☂","✈","⚓","♞","⬟"];
+    const FACES = ["😀","😎","🤔","😴","🤠","😇","🥳","😜","🤓","😌","🙂","😲","🥸","😺","🤗","😷"];
+    const DIRS = [{n:"North",a:"⬆"},{n:"East",a:"➡"},{n:"South",a:"⬇"},{n:"West",a:"⬅"},{n:"North-East",a:"↗"},{n:"South-West",a:"↙"},{n:"North-West",a:"↖"},{n:"South-East",a:"↘"}];
+    const SHAPES = [
+      {n:"Circle",svg:c=>'<circle cx="30" cy="30" r="22" fill="'+c+'"/>'},
+      {n:"Square",svg:c=>'<rect x="9" y="9" width="42" height="42" rx="5" fill="'+c+'"/>'},
+      {n:"Triangle",svg:c=>'<polygon points="30,6 55,52 5,52" fill="'+c+'"/>'},
+      {n:"Star",svg:c=>'<polygon points="30,4 38,22 57,22 42,34 47,53 30,42 13,53 18,34 3,22 22,22" fill="'+c+'"/>'},
+      {n:"Diamond",svg:c=>'<polygon points="30,4 54,30 30,56 6,30" fill="'+c+'"/>'},
+      {n:"Hexagon",svg:c=>'<polygon points="30,4 52,17 52,43 30,56 8,43 8,17" fill="'+c+'"/>'},
+      {n:"Heart",svg:c=>'<path d="M30 52 C6 34 8 12 22 10 C27 9 30 13 30 16 C30 13 33 9 38 10 C52 12 54 34 30 52Z" fill="'+c+'"/>'},
+      {n:"Oval",svg:c=>'<ellipse cx="30" cy="30" rx="24" ry="16" fill="'+c+'"/>'}
+    ];
+    const PAIRS = [
+      ["India","New Delhi"],["Japan","Tokyo"],["France","Paris"],["Egypt","Cairo"],["Brazil","Brasília"],["Canada","Ottawa"],
+      ["Australia","Canberra"],["Italy","Rome"],["Spain","Madrid"],["Turkey","Ankara"],["Iran","Tehran"],["Iraq","Baghdad"],
+      ["Sun","Day"],["Moon","Night"],["King","Crown"],["Bird","Nest"],["Fish","Water"],["Bee","Honey"],
+      ["Doctor","Hospital"],["Teacher","School"],["Pilot","Aeroplane"],["Farmer","Field"],["Chef","Kitchen"],["Sailor","Ship"]
+    ];
+    const PROCESSES = [
+      {t:"Making a cup of tea", steps:["Boil water in a kettle","Put tea leaves in the pot","Pour the hot water over the leaves","Let it brew for three minutes","Strain the tea into a cup","Add sugar and stir","Serve it hot"]},
+      {t:"Planting a seed", steps:["Dig a small hole in the soil","Place the seed in the hole","Cover the seed with soil","Water the soil gently","Keep it in sunlight","Watch the sprout appear","Tend the young plant daily"]},
+      {t:"Sending a letter", steps:["Write the letter on paper","Fold the letter neatly","Place it in an envelope","Write the address on the envelope","Stick a stamp on the corner","Drop it in the post box","The postman delivers it"]},
+      {t:"Baking bread", steps:["Mix flour, yeast and water","Knead the dough well","Leave the dough to rise","Shape the dough into a loaf","Preheat the oven","Bake until golden brown","Cool the bread on a rack"]}
+    ];
+    const SENT_TEMPLATES = [
+      ()=>{ const n=sample(NAMES,1)[0], p=ri(2,9), c=sample(["Kochi","Calicut","Malappuram","Thrissur","Kannur"],1)[0];
+        return { text:`${n} bought ${p} notebooks from a shop in ${c} on Friday morning.`, slots:{who:n, what:`${p} notebooks`, where:c} }; },
+      ()=>{ const n=sample(NAMES,1)[0], p=ri(3,12), pet=sample(["cat","parrot","goat","pigeon"],1)[0];
+        return { text:`The ${pet} of ${n} drank water and slept under the mango tree at noon.`, slots:{who:n, what:pet, where:"under the mango tree"} }; },
+      ()=>{ const p=ri(4,15), c=sample(["library","market","garden","harbour","school"],1)[0];
+        return { text:`Exactly ${p} children were reading story books in the ${c} when the bell rang.`, slots:{who:`${p} children`, what:"story books", where:"the "+c} }; }
+    ];
+
+    /* ================= Themes (100) ================= */
+    /* [name, hue, hue2, mode] — each theme derives its own palette from its signature hues. */
+    const THEMES = [
+      ["Neon",262,320,"dark"],["Candy",335,190,"light"],["Ocean",205,170,"dark"],["Night",240,280,"dark"],
+      ["Galaxy",268,210,"dark"],["Rainbow",350,200,"light"],["Jungle",140,80,"dark"],["Space",230,290,"dark"],
+      ["Underwater",190,160,"dark"],["Fire",16,45,"dark"],["Ice",195,220,"light"],["Forest",135,90,"dark"],
+      ["Desert",38,20,"light"],["Sunset",18,320,"dark"],["Sunrise",32,350,"light"],["Flower Garden",330,120,"light"],
+      ["Butterfly",285,45,"light"],["Crystal",185,260,"light"],["Golden",45,30,"dark"],["Silver",220,210,"light"],
+      ["Pastel",300,160,"light"],["Chocolate",24,36,"dark"],["Fantasy",280,330,"dark"],["Cyberpunk",300,180,"dark"],
+      ["Magic",265,45,"dark"],["Winter",205,190,"light"],["Summer",45,160,"light"],["Rainbow Candy",340,170,"light"],
+      ["Dark Mystery",255,200,"dark"],["Dream World",290,190,"light"],
+      ["Diamond Rush",190,45,"dark"],["Neon City",315,190,"dark"],["Jelly World",320,150,"light"],["Pop Art",350,55,"light"],
+      ["Rainbow Lights",275,130,"dark"],["Electric Storm",225,55,"dark"],["Cosmic Dust",255,330,"dark"],["Star Dust",250,45,"light"],
+      ["Moon Garden",235,140,"dark"],["Solar System",28,210,"dark"],["Planet World",210,120,"dark"],["Mars Mission",14,35,"dark"],
+      ["Alien World",110,280,"dark"],["UFO Zone",150,260,"dark"],["Space Station",215,180,"dark"],["Meteor Shower",240,30,"dark"],
+      ["Galaxy Lights",272,190,"dark"],["Astro Land",228,320,"light"],["Lava World",10,40,"dark"],["Volcano Island",18,150,"dark"],
+      ["Frozen Kingdom",200,240,"light"],["Arctic World",198,170,"light"],["Polar Lights",160,290,"dark"],["Ice Castle",205,260,"light"],
+      ["Snowflake World",202,215,"light"],["Crystal Cave",180,280,"dark"],["Golden Kingdom",46,25,"dark"],["Silver Moon",225,45,"light"],
+      ["Royal Palace",275,45,"dark"],["Treasure Island",42,170,"dark"],["Pirate World",20,205,"dark"],["Secret Island",160,40,"light"],
+      ["Ancient Egypt",40,200,"light"],["Pyramid Land",36,24,"light"],["Lost Kingdom",85,30,"dark"],["Dragon World",5,130,"dark"],
+      ["Unicorn Land",300,180,"light"],["Mermaid World",185,320,"light"],["Fairy Garden",320,130,"light"],["Magic School",258,42,"dark"],
+      ["Wizard World",248,300,"dark"],["Potion Lab",130,290,"dark"],["Enchanted Castle",282,200,"dark"],["Mystery Mansion",230,20,"dark"],
+      ["Haunted House",255,90,"dark"],["Halloween Night",24,280,"dark"],["Pumpkin Land",26,110,"light"],["Carnival World",345,200,"light"],
+      ["Circus Land",355,230,"light"],["Funfair",320,45,"light"],["Balloon Festival",200,340,"light"],["Toy Kingdom",350,160,"light"],
+      ["Lego World",355,210,"light"],["Miniature World",150,330,"light"],["Paper World",40,190,"light"],["Origami Land",170,350,"light"],
+      ["Rainbow Blocks",0,240,"light"],["Geometric World",210,330,"dark"],["Puzzle Land",95,260,"light"],["Optical Illusion",0,0,"dark"],
+      ["Neon Maze",290,140,"dark"],["Mirror World",210,210,"light"],["Shadow Land",240,240,"dark"],["Monochrome",0,0,"light"],
+      ["Pastel Dreams",310,170,"light"],["Velvet World",330,270,"dark"],["Silk Touch",25,330,"light"],["Glitter World",45,300,"light"],
+      ["Hologram World",185,300,"dark"],["Infinity World",245,175,"dark"]
+    ];
+    function themePalette(t){
+      const [name,h,h2,mode] = t;
+      if(name==="Monochrome") return { bg:"#f4f4f4", surface:"#ffffff", surface2:"#e9e9e9", ink:"#17181c", muted:"#5c5f66", accent:"#17181c", accent2:"#6b7280", line:"#cfcfcf" };
+      if(name==="Optical Illusion") return { bg:"#0a0a0a", surface:"#161616", surface2:"#222222", ink:"#f5f5f5", muted:"#a3a3a3", accent:"#ffffff", accent2:"#8a8a8a", line:"#3a3a3a" };
+      if(mode==="dark") return {
+        bg:`hsl(${h} 42% 9%)`, surface:`hsl(${h} 38% 15%)`, surface2:`hsl(${h} 36% 21%)`,
+        ink:`hsl(${h} 30% 94%)`, muted:`hsl(${h} 22% 68%)`,
+        accent:`hsl(${h} 88% 62%)`, accent2:`hsl(${h2} 88% 64%)`, line:`hsl(${h} 32% 30%)` };
+      return {
+        bg:`hsl(${h} 62% 93%)`, surface:`hsl(${h} 70% 98.5%)`, surface2:`hsl(${h} 58% 89%)`,
+        ink:`hsl(${h} 32% 15%)`, muted:`hsl(${h} 20% 40%)`,
+        accent:`hsl(${h} 78% 44%)`, accent2:`hsl(${h2} 78% 46%)`, line:`hsl(${h} 38% 76%)` };
+    }
+    let curTheme = THEMES[0];
+    function applyTheme(t){
+      curTheme = t;
+      const p = themePalette(t), r = document.documentElement.style;
+      r.setProperty('--bg', p.bg); r.setProperty('--surface', p.surface); r.setProperty('--surface2', p.surface2);
+      r.setProperty('--ink', p.ink); r.setProperty('--muted', p.muted);
+      r.setProperty('--accent', p.accent); r.setProperty('--accent2', p.accent2); r.setProperty('--line', p.line);
+      document.documentElement.style.colorScheme = (t[3]==='dark' || t[0]==='Optical Illusion') ? 'dark' : 'light';
+      $('curThemeName').textContent = t[0];
+      const cs = $('curSwatch'); cs.style.setProperty('--sw1', p.accent); cs.style.setProperty('--sw2', p.accent2);
+      document.querySelectorAll('.tchip').forEach(ch => ch.classList.toggle('sel', ch.dataset.name === t[0]));
+    }
+    function buildThemeGrid(){
+      const grid = $('themeGrid'); grid.innerHTML = '';
+      THEMES.forEach(t => {
+        const p = themePalette(t);
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'tchip'; b.dataset.name = t[0];
+        b.innerHTML = `<span class="swatch" style="--sw1:${p.accent};--sw2:${p.accent2}"></span>${esc(t[0])}`;
+        b.addEventListener('click', () => { applyTheme(t); toast('Theme: ' + t[0] + ' — list stays open, tap Done when finished'); });
+        grid.appendChild(b);
+      });
+    }
+    function setPicker(open){
+      $('themePicker').classList.toggle('open', open);
+      $('themeSelector').setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    /* ================= Global state ================= */
+    const G = {
+      users: [],            // {name, pass, adno} — kept in this page's memory for this visit
+      user: null,
+      paper: 'dhaakira', level: 'easy',
+      playing: false, paused: false,
+      roundIdx: 0, scores: [],   // {name, got, max}
+      timeLeft: 30*60, clockInt: null,
+      showLeft: 0, showInt: null, phase: 'idle',
+      inst: null, defs: [],
+      leaderboard: []       // this visit only
+    };
+
+    /* ================= Player avatars — cartoon characters (chosen from the Ad.No) ================= */
+    /* Each player is assigned ONE famous cartoon character, picked from their Ad.No:
+       character = Ad.No mod 124, so the same Ad.No always brings back the same
+       character at sign-in, and different Ad.Nos get different characters. When
+       players outnumber the characters, the background gradient also rotates
+       (one full turn of the bank per step), so avatars still differ. */
+    const CHARACTERS = [
+      ["🐭","Mickey Mouse","Mickey Mouse"],["🎀","Minnie Mouse","Mickey Mouse"],["🦆","Donald Duck","Donald Duck"],["🐶","Goofy","Mickey Mouse"],["🐿️","Chip","Chip 'n' Dale"],
+      ["🐿️","Dale","Chip 'n' Dale"],["🦁","Simba","The Lion King"],["🦁","Nala","The Lion King"],["🧞","Genie","Aladdin"],["🧜‍♀️","Ariel","The Little Mermaid"],
+      ["🐱","Tom","Tom and Jerry"],["🐭","Jerry","Tom and Jerry"],["🐰","Bugs Bunny","Looney Tunes"],["🦆","Daffy Duck","Looney Tunes"],["🐤","Tweety","Looney Tunes"],
+      ["🐱","Sylvester","Looney Tunes"],["🐆","Pink Panther","The Pink Panther"],["🐶","Scooby-Doo","Scooby-Doo"],["🧑","Shaggy","Scooby-Doo"],["🐻","Yogi Bear","Yogi Bear"],
+      ["🤖","Doraemon","Doraemon"],["👦","Nobita","Doraemon"],["👧","Shizuka","Doraemon"],["👦","Gian","Doraemon"],["👦","Suneo","Doraemon"],
+      ["😜","Shinchan","Crayon Shin-chan"],["🐶","Shiro","Crayon Shin-chan"],["⚡","Pikachu","Pokémon"],["👦","Ash Ketchum","Pokémon"],["🐲","Goku","Dragon Ball"],
+      ["👦","Ben Tennyson","Ben 10"],["👧","Gwen Tennyson","Ben 10"],["👽","Four Arms","Ben 10"],["👧","Blossom","The Powerpuff Girls"],["🫧","Bubbles","The Powerpuff Girls"],
+      ["💚","Buttercup","The Powerpuff Girls"],["🧪","Dexter","Dexter's Laboratory"],["🐕","Courage","Courage the Cowardly Dog"],["🐱","Gumball","The Amazing World of Gumball"],["🐟","Darwin","The Amazing World of Gumball"],
+      ["🐶","Bluey","Bluey"],["🐶","Bingo","Bluey"],["🧽","SpongeBob","SpongeBob SquarePants"],["⭐","Patrick Star","SpongeBob SquarePants"],["🦑","Squidward","SpongeBob SquarePants"],
+      ["🦀","Mr. Krabs","SpongeBob SquarePants"],["🐷","Peppa Pig","Peppa Pig"],["🐷","George Pig","Peppa Pig"],["👦","Phineas","Phineas and Ferb"],["👦","Ferb","Phineas and Ferb"],
+      ["💪","Chhota Bheem","Chhota Bheem"],["👦","Raju","Chhota Bheem"],["🐒","Jaggu","Chhota Bheem"],["👦","Kalia","Chhota Bheem"],["👦","Dholu","Chhota Bheem"],
+      ["👦","Bholu","Chhota Bheem"],["🥋","Motu","Motu Patlu"],["👓","Patlu","Motu Patlu"],["🐶","Ghasitaram","Motu Patlu"],["👮","Inspector Chingum","Motu Patlu"],
+      ["🐱","Oggy","Oggy and the Cockroaches"],["🪳","Joey","Oggy and the Cockroaches"],["🪳","Marky","Oggy and the Cockroaches"],["🪳","Dee Dee","Oggy and the Cockroaches"],["👦","Little Singham","Little Singham"],
+      ["🦸","Mighty Raju","Mighty Raju"],["🐒","Rudra","Rudra"],["👦","Gattu","Gattu Battu"],["👦","Battu","Gattu Battu"],["🐘","Appu","Appu"],
+      ["🦇","Batman","Batman"],["🕷️","Spider-Man","Spider-Man"],["🦸","Superman","Superman"],["🛡️","Captain America","Marvel Animated Series"],["🤖","Iron Man","Iron Man"],
+      ["🐢","Leonardo","Teenage Mutant Ninja Turtles"],["🐢","Michelangelo","Teenage Mutant Ninja Turtles"],["🐢","Raphael","Teenage Mutant Ninja Turtles"],["🐢","Donatello","Teenage Mutant Ninja Turtles"],["🥷","Naruto","Naruto"],
+      ["❄️","Elsa","Frozen"],["👸","Anna","Frozen"],["⛄","Olaf","Frozen"],["🧸","Winnie the Pooh","Winnie the Pooh"],["🐷","Piglet","Winnie the Pooh"],
+      ["👹","Shrek","Shrek"],["🫏","Donkey","Shrek"],["🐉","Toothless","How to Train Your Dragon"],["🤖","WALL-E","WALL-E"],["👨‍🚀","Buzz Lightyear","Toy Story"],
+      ["🤠","Woody","Toy Story"],["👨‍🚀","Baymax","Big Hero 6"],["🐱","Garfield","Garfield"],["🐶","Snoopy","Peanuts"],["⚓","Popeye","Popeye"],
+      ["🐻","Baloo","The Jungle Book"],["🐻","Balu","The Jungle Book"],["🐦","Woody Woodpecker","Woody Woodpecker"],["🐰","Judy Hopps","Zootopia"],["🦊","Nick Wilde","Zootopia"],
+      ["🐼","Po","Kung Fu Panda"],["🟡","Minion","Despicable Me"],["👓","Kevin","Minions"],["🎸","Stuart","Minions"],["🐶","Spike","Tom and Jerry"],
+      ["🐶","Tyke","Tom and Jerry"],["🐦","Road Runner","Looney Tunes"],["🐺","Wile E. Coyote","Looney Tunes"],["🪨","Fred Flintstone","The Flintstones"],["🧔","Barney Rubble","The Flintstones"],
+      ["🚀","George Jetson","The Jetsons"],["😎","Johnny Bravo","Johnny Bravo"],["⚔️","Samurai Jack","Samurai Jack"],["🌪️","Aang","Avatar: The Last Airbender"],["🦚","Krishna","Little Krishna"],
+      ["🏹","Arjun","Mahabharat"],["🙏","Hanuman","Hanuman"],["📜","Tenali Raman","Tenali Raman"],["👑","Akbar","Akbar Birbal"],["🧠","Birbal","Akbar Birbal"],
+      ["😅","Suppandi","Suppandi"],["🦸‍♂️","Shaktimaan","Shaktimaan"],["🐸","Kermit","The Muppets"],["🐷","Miss Piggy","The Muppets"]
+    ];
+    const AV_GRADS = [
+      ["#ff5c7a","#ff9f43"],["#f7b731","#fc4a1a"],["#2ed573","#1abc9c"],["#54a0ff","#7d5ba6"],["#a55eea","#ff6b81"],
+      ["#00b8c4","#54a0ff"],["#ff6b81","#a55eea"],["#ffa502","#ff6348"],["#1dd1a1","#10ac84"],["#5f27cd","#341f97"],
+      ["#ff9ff3","#f368e0"],["#48dbfb","#0abde3"],["#feca57","#ff9f43"],["#ff6b6b","#ee5253"],["#1abc9c","#16a085"],
+      ["#e056fd","#686de0"],["#7ed6df","#3dc1d3"],["#e77f67","#cf6a87"],["#786fa6","#574b90"],["#f8a5c2","#f78fb3"]
+    ];
+    function charFor(adno){
+      const n = Math.abs(parseInt(adno, 10) || 0);
+      const ci = n % CHARACTERS.length;
+      const gi = Math.floor(n / CHARACTERS.length) % AV_GRADS.length;
+      const c = CHARACTERS[ci];
+      return { emoji: c[0], name: c[1], cartoon: c[2], grad: AV_GRADS[gi], num: ci + 1 };
+    }
+    function avatarDesc(adno){
+      const c = charFor(adno);
+      return `${c.name} — ${c.cartoon} (character #${c.num} of ${CHARACTERS.length})`;
+    }
+    function avatarHTML(adno, sizeCls){
+      const c = charFor(adno);
+      return `<span class="avatar ${sizeCls || ''}" style="background:linear-gradient(135deg, ${c.grad[0]}, ${c.grad[1]})" title="Character avatar of Ad.No ${esc(adno)} — ${esc(avatarDesc(adno))}"><span class="av-emoji" aria-hidden="true">${c.emoji}</span></span>`;
+    }
+    /* Dancing avatar — reaction tier from the final percentage scored */
+    function danceTier(pct){
+      if(pct < 10) return 'cry';       /* sadness + crying */
+      if(pct < 50) return 'regret';    /* pashchathabham — regret */
+      if(pct < 90) return 'smile';     /* punjiri — smile + small spin */
+      return 'mega';                   /* MEGA DANCE */
+    }
+    function dancerHTML(pct){
+      const tier = danceTier(pct);
+      let fx = '';
+      if(tier === 'cry') fx = '<span class="fx tear t1" aria-hidden="true">💧</span><span class="fx tear t2" aria-hidden="true">💧</span><span class="fx tear t3" aria-hidden="true">💧</span>';
+      if(tier === 'smile' || tier === 'mega') fx = '<span class="fx spark s1" aria-hidden="true">✨</span><span class="fx spark s2" aria-hidden="true">✨</span><span class="fx spark s3" aria-hidden="true">✨</span>';
+      return `<span class="dancer dancer-${tier}">${avatarHTML(G.user.adno, 'av-lg')}${fx}</span>`;
+    }
+    function hudHTML(){
+      if(!G.user) return '';
+      const c = charFor(G.user.adno);
+      return `${avatarHTML(G.user.adno, 'av-sm')}<span>${esc(G.user.name)} · <span class="char-name">${c.emoji} ${esc(c.name)}</span><br /><span class="adno">Ad.No ${G.user.adno}</span></span>`;
+    }
+    /* ================= Auth ================= */
+    let authMode = 'in';
+    function setAuthMode(m){
+      authMode = m;
+      $('tabIn').classList.toggle('sel', m==='in');
+      $('tabUp').classList.toggle('sel', m==='up');
+      $('authGo').textContent = m==='in' ? 'Sign In' : 'Create account & enter';
+      $('authTitle').textContent = m==='in' ? 'Sign in to enter the Arena' : 'Sign up — get your Ad.No';
+      $('authMsg').className = 'msg'; $('authMsg').textContent = '';
+      if(m==='in') $('adnoReveal').classList.add('hidden');
+    }
+    function authError(t){ const m=$('authMsg'); m.className='msg err'; m.textContent=t; }
+    function newAdno(){
+      let a; do { a = ri(1000000, 9999999); } while (G.users.some(u => u.adno === a));
+      return a;
+    }
+    function doAuth(){
+      const name = $('authName').value.trim(), pass = $('authPass').value;
+      if(name.length < 2) return authError('Please enter your name (at least 2 letters).');
+      if(pass.length < 3) return authError('Password must be at least 3 characters.');
+      if(authMode === 'up'){
+        if(G.users.some(u => u.name.toLowerCase() === name.toLowerCase()))
+          return authError('That name is already signed up in this visit. Use Sign In, or pick another name.');
+        const user = { name, pass, adno: newAdno() };
+        G.users.push(user); G.user = user;
+        $('adnoValue').textContent = user.adno;
+        $('adnoAvatar').innerHTML = avatarHTML(user.adno, 'av-lg');
+        const uc = charFor(user.adno);
+        $('adnoChar').innerHTML = `<div class="char-big">${uc.emoji} ${esc(uc.name)}</div><div class="char-sub">from ${esc(uc.cartoon)}</div>`;
+        $('adnoReveal').classList.remove('hidden');
+        const m = $('authMsg'); m.className = 'msg ok';
+        m.textContent = `Account created! Welcome, ${name}. Your Ad.No is ${user.adno} and your character is ${uc.name} from ${uc.cartoon} — chosen from your Ad.No, so you will get this same character at every sign-in. Entering the Arena…`;
+        setTimeout(() => enterHome(), 1400);
+      } else {
+        const user = G.users.find(u => u.name.toLowerCase() === name.toLowerCase());
+        if(!user) return authError('No account with that name in this visit yet. Tap "Sign Up" first.');
+        if(user.pass !== pass) return authError('Wrong password. Try again.');
+        G.user = user; enterHome();
+      }
+    }
+    function enterHome(){
+      $('userName').textContent = G.user.name;
+      $('userAdno').textContent = G.user.adno;
+      $('userAvatar').innerHTML = avatarHTML(G.user.adno) + '<span class="avatar-caption">This is your avatar</span>';
+      const hc = charFor(G.user.adno);
+      $('userChar').textContent = `${hc.emoji} ${hc.name} · ${hc.cartoon}`;
+      $('hudUser').innerHTML = hudHTML();
+      $('btHudUser').innerHTML = hudHTML();
+      renderBadges(); buildGallery();
+      showScreen('home'); renderLeaderboard();
+    }
+    function showScreen(which){
+      ['auth','home','game','results','brain'].forEach(s => $('screen-'+s).classList.toggle('active', s===which));
+      window.scrollTo({ top: 0 });
+    }
+
+    /* ================= Recall widgets ================= */
+    // Single-choice question. Returns {el, isRight}
+    function mcq(prompt, options, correctIdx, renderOpt){
+      const wrap = document.createElement('div'); wrap.className = 'q';
+      let sel = -1;
+      const optEls = [];
+      wrap.innerHTML = `<div class="qp">${prompt}</div>`;
+      const box = document.createElement('div'); box.className = 'opts';
+      options.forEach((o, i) => {
+        const b = document.createElement('button'); b.type='button'; b.className='opt';
+        b.innerHTML = renderOpt ? renderOpt(o) : esc(o);
+        b.addEventListener('click', () => { sel = i; optEls.forEach((e,j)=>e.classList.toggle('sel', j===i)); });
+        optEls.push(b); box.appendChild(b);
+      });
+      wrap.appendChild(box);
+      return { el: wrap, frac: () => sel === correctIdx ? 1 : 0 };
+    }
+    // Multi-select chips. score: hits - false picks, clamped, over total correct.
+    function multiSelect(prompt, options, correctSet){
+      const wrap = document.createElement('div'); wrap.className = 'q';
+      wrap.innerHTML = `<div class="qp">${prompt}</div>`;
+      const box = document.createElement('div'); box.className = 'chips';
+      const chosen = new Set();
+      options.forEach(o => {
+        const b = document.createElement('button'); b.type='button'; b.className='chip';
+        b.innerHTML = o.html || esc(o.label);
+        b.addEventListener('click', () => { chosen.has(o.id) ? chosen.delete(o.id) : chosen.add(o.id); b.classList.toggle('sel'); });
+        box.appendChild(b);
+      });
+      wrap.appendChild(box);
+      return { el: wrap, frac: () => {
+        let hits = 0, falseP = 0;
+        chosen.forEach(id => correctSet.has(id) ? hits++ : falseP++);
+        return Math.max(0, hits - falseP) / correctSet.size;
+      }};
+    }
+    // Click items in order. items: [{id, html}]
+    function orderBuilder(prompt, items){
+      const wrap = document.createElement('div'); wrap.className = 'q';
+      wrap.innerHTML = `<div class="qp">${prompt}</div>`;
+      const out = document.createElement('div'); out.className = 'seqout';
+      const pool = document.createElement('div'); pool.className = 'chips';
+      const chosen = [];
+      function drawOut(){
+        out.innerHTML = chosen.length ? '' : '<span class="empty-note">Tap the items below in order…</span>';
+        chosen.forEach((it, idx) => {
+          const c = document.createElement('button'); c.type='button'; c.className='chip sel';
+          c.innerHTML = it.html;
+          c.title = 'Tap to remove';
+          c.addEventListener('click', () => { chosen.splice(idx,1); sync(); });
+          out.appendChild(c);
+        });
+      }
+      function sync(){
+        drawOut();
+      }
+      items.forEach(it => {
+        const b = document.createElement('button'); b.type='button'; b.className='chip'; b.dataset.id = it.id;
+        b.innerHTML = it.html;
+        b.addEventListener('click', () => { chosen.push(it); sync(); });
+        pool.appendChild(b);
+      });
+      const clr = document.createElement('button'); clr.type='button'; clr.className='btn mt'; clr.textContent='↺ Clear & start again';
+      clr.addEventListener('click', () => { chosen.length = 0; sync(); });
+      wrap.appendChild(out); wrap.appendChild(pool); wrap.appendChild(clr);
+      sync();
+      return { el: wrap, order: () => chosen.map(c => c.id) };
+    }
+    function orderFrac(gotIds, correctIds){
+      if(!correctIds.length) return 0;
+      let ok = 0; correctIds.forEach((id, i) => { if(gotIds[i] === id) ok++; });
+      return ok / correctIds.length;
+    }
+    // Text-sequence scoring: fraction of positions matching.
+    function seqFrac(got, want){
+      if(!want.length) return 0;
+      let ok = 0; for(let i=0;i<want.length;i++) if(got[i] === want[i]) ok++;
+      return ok / want.length;
+    }
+    function textInput(prompt, placeholder){
+      const wrap = document.createElement('div'); wrap.className='q';
+      wrap.innerHTML = `<div class="qp">${prompt}</div>`;
+      const inp = document.createElement('input'); inp.type='text'; inp.placeholder = placeholder || ''; inp.autocomplete='off';
+      wrap.appendChild(inp);
+      return { el: wrap, val: () => inp.value.trim() };
+    }
+    function numInput(prompt){
+      const wrap = document.createElement('div'); wrap.className='q';
+      wrap.innerHTML = `<div class="qp">${prompt}</div>`;
+      const inp = document.createElement('input'); inp.type='number'; inp.min='0'; inp.autocomplete='off';
+      wrap.appendChild(inp);
+      return { el: wrap, val: () => inp.value === '' ? null : parseInt(inp.value, 10) };
+    }
+
+    /* ================= Game engine ================= */
+    function totalMax(){ return G.defs.reduce((s,d)=>s+d.max,0); }
+    function totalGot(){ return G.scores.reduce((s,r)=>s+r.got,0); }
+    function startGame(){
+      G.defs = G.paper === 'dhaakira' ? DHAKIRA_DEFS : BNO14_DEFS;
+      G.scores = []; G.roundIdx = 0; G.timeLeft = 30*60; G.playing = true; G.paused = false;
+      showScreen('game');
+      clearInterval(G.clockInt);
+      G.clockInt = setInterval(() => {
+        if(!G.playing || G.paused) return;
+        G.timeLeft -= 1;
+        drawClock();
+        if(G.timeLeft <= 0){ finishGame('time'); }
+      }, 1000);
+      drawClock(); drawScore();
+      nextRound();
+    }
+    function drawClock(){
+      const c = $('gClock'); c.textContent = fmtClock(G.timeLeft);
+      c.classList.toggle('low', G.timeLeft <= 60);
+    }
+    function drawScore(){
+      $('gScore').textContent = `Score ${fmtMarks(totalGot())} / ${totalMax()}`;
+    }
+    function nextRound(){
+      if(G.roundIdx >= G.defs.length) return finishGame('done');
+      const def = G.defs[G.roundIdx];
+      $('gTitle').textContent = G.paper === 'dhaakira'
+        ? `Round ${G.roundIdx+1} of 30 · ${def.name}`
+        : `Stage ${G.roundIdx+1} of 5 · ${def.name}`;
+      G.inst = def.make(G.level);
+      renderShowPhase();
+    }
+    function phaseShell(title, secs){
+      const host = $('phaseHost');
+      host.innerHTML = `
+        <div class="phasebar"><div id="phaseFill"></div></div>
+        <div class="phase-label"><span>${esc(title)}</span><span id="phaseSecs"></span></div>
+        <div id="phaseBody"></div>`;
+      return $('phaseBody');
+    }
+    function renderShowPhase(){
+      const inst = G.inst, def = G.defs[G.roundIdx];
+      G.phase = 'show';
+      const body = phaseShell(G.paper === 'dhaakira' ? '👀 MEMORISE — observe carefully' : '👀 STAGE — observe carefully', inst.showSecs);
+      if(inst.judge) {
+        const j = document.createElement('div'); j.className='judge-note';
+        j.innerHTML = `<b>Judge's instructions:</b> ${inst.judge}`;
+        body.appendChild(j);
+      }
+      const box = document.createElement('div'); box.className='showbox';
+      inst.renderShow(box);
+      body.appendChild(box);
+      const ready = document.createElement('button');
+      ready.type='button'; ready.className='btn primary big mt'; ready.textContent = "✓ I've memorised it — start recall";
+      ready.addEventListener('click', () => renderRecallPhase());
+      body.appendChild(ready);
+      // show countdown
+      clearInterval(G.showInt);
+      G.showLeft = inst.showSecs;
+      drawShowTimer(inst.showSecs);
+      G.showInt = setInterval(() => {
+        if(G.paused || !G.playing || G.phase !== 'show') return;
+        G.showLeft -= 0.25;
+        drawShowTimer(inst.showSecs);
+        if(G.showLeft <= 0) renderRecallPhase();
+      }, 250);
+    }
+    function drawShowTimer(total){
+      const f = $('phaseFill'), s = $('phaseSecs');
+      if(f) f.style.width = Math.max(0, G.showLeft/total*100) + '%';
+      if(s) s.textContent = Math.max(0, Math.ceil(G.showLeft)) + 's to memorise';
+    }
+    function renderRecallPhase(){
+      if(G.phase !== 'show') return;
+      G.phase = 'recall';
+      clearInterval(G.showInt);
+      const def = G.defs[G.roundIdx];
+      const body = phaseShell('✍️ RECALL — answer from memory', 0);
+      $('phaseFill').style.width = '0%'; $('phaseSecs').textContent = 'No going back!';
+      const card = document.createElement('div'); card.className='card'; card.style.marginTop='12px';
+      G.inst.renderRecall(card);
+      body.appendChild(card);
+      const submit = document.createElement('button');
+      submit.type='button'; submit.className='btn primary big mt';
+      submit.textContent = G.roundIdx === G.defs.length-1 ? 'Finish & see my result 🏁' : 'Submit round →';
+      submit.addEventListener('click', () => {
+        const got = Math.round(G.inst.score() * def.max * 10) / 10;
+        G.scores.push({ name: def.name, got, max: def.max });
+        drawScore();
+        showCheer('cheerGame');
+        G.roundIdx++;
+        nextRound();
+      });
+      body.appendChild(submit);
+    }
+    function setPaused(p){
+      if(!G.playing) return;
+      G.paused = p;
+      $('pauseOverlay').classList.toggle('open', p);
+    }
+    let confirmCb = null;
+    function askConfirm(title, text, yesLabel, cb){
+      $('confirmTitle').textContent = title; $('confirmText').textContent = text;
+      $('confirmYes').textContent = yesLabel; confirmCb = cb;
+      $('confirmOverlay').classList.add('open');
+    }
+    function quitGame(){
+      askConfirm('Quit this game?', 'Your progress in this game will be lost and no score will be recorded.', 'Yes, quit', () => {
+        G.playing = false; G.paused = false;
+        clearInterval(G.clockInt); clearInterval(G.showInt);
+        $('pauseOverlay').classList.remove('open');
+        showScreen('home');
+      });
+    }
+    function stopGame(){
+      askConfirm('Stop & see result?', 'The game ends now. You keep the marks earned so far; unplayed rounds score 0.', 'Stop & show result', () => {
+        $('pauseOverlay').classList.remove('open');
+        finishGame('stopped');
+      });
+    }
+    function finishGame(reason){
+      if(!G.playing) return;
+      G.playing = false; G.paused = false;
+      clearInterval(G.clockInt); clearInterval(G.showInt);
+      $('pauseOverlay').classList.remove('open');
+      // pad unplayed rounds with 0
+      while(G.scores.length < G.defs.length)
+        G.scores.push({ name: G.defs[G.scores.length].name, got: 0, max: G.defs[G.scores.length].max });
+      const got = totalGot(), max = totalMax(), pct = max ? got/max*100 : 0;
+      G.leaderboard.push({
+        name: G.user.name, adno: G.user.adno,
+        paper: G.paper === 'dhaakira' ? 'DHAAKIRA' : 'BNO14',
+        level: G.level, got, max, pct,
+        when: new Date()
+      });
+      renderResults(reason, got, max, pct);
+      showScreen('results');
+      awardBadge('first');
+      if(pct >= 80) awardBadge('sharp');
+      if(reason === 'done' && G.paper === 'dhaakira') awardBadge('master');
+      confettiBurst(true);
+    }
+
+    /* ================= Round generators (DHAAKIRA) ================= */
+    function inst(showSecs, renderShow, renderRecall, score, judge){
+      return { showSecs, renderShow, renderRecall, score, judge };
+    }
+    function showHTML(html){ return box => { box.innerHTML = html; }; }
+    function wordChips(words, numbered){
+      return `<div class="wordgrid">${words.map((w,i)=>`<span class="wchip">${numbered?`<span class="num">${i+1}</span>`:''}${esc(w)}</span>`).join('')}</div>`;
+    }
+    function emojiGrid(items, withNames){
+      return `<div class="emoji-grid">${items.map(o=>`<span class="emoji-cell">${o.e}${withNames?`<span class="cap">${esc(o.n)}</span>`:''}</span>`).join('')}</div>`;
+    }
+    function colorSeqHTML(colors){
+      return `<div class="colorseq">${colors.map(c=>`<div class="colorbox" style="background:${c.c}" title="${esc(c.n)}"></div>`).join('')}</div>`;
+    }
+    // recall host helper: builds parts, score = average of part fracs
+    function recallParts(parts){
+      return host => { parts.forEach(p => host.appendChild(p.el)); };
+    }
+    function avgFrac(parts){ return () => parts.reduce((s,p)=>s+p.frac(),0) / parts.length; }
+
+    const GEN = [
+    /* 1 Word Memorization */
+    () => { const n = pickN(6,9,12), words = sample(WORDS, n);
+      const distract = sample(WORDS.filter(w=>!words.includes(w)), 6);
+      const opts = shuffle([...words.map(w=>({id:w,label:w})), ...distract.map(w=>({id:'x'+w,label:w}))]);
+      const ms = multiSelect(`Select ALL ${n} words you saw:`, opts, new Set(words));
+      return inst(pickN(25,32,38), showHTML(wordChips(words)), recallParts([ms]), avgFrac([ms])); },
+    /* 2 Number Sequence Memory */
+    () => { const len = pickN(6,8,10); const seq = Array.from({length:len},()=>ri(0,9));
+      const ti = textInput('Type the number sequence exactly as shown (digits in order):', seq.length+' digits');
+      const part = { el: ti.el, frac: () => seqFrac(ti.val().replace(/\D/g,'').split('').map(Number), seq) };
+      return inst(pickN(15,18,22), showHTML(`<div class="bigseq">${seq.join(' ')}</div>`), recallParts([part]), avgFrac([part])); },
+    /* 3 Picture Memory */
+    () => { const n = pickN(6,9,12), pics = sample(OBJECTS, n);
+      const parts = [];
+      for(let k=0;k<3;k++){
+        const wasIn = k < 2;
+        const target = wasIn ? sample(pics,1)[0] : sample(OBJECTS.filter(o=>!pics.includes(o)),1)[0];
+        const others = sample(OBJECTS.filter(o=>o!==target), 3);
+        const opts = shuffle([target, ...others]);
+        parts.push(mcq(`Question ${k+1}: Which picture WAS in the grid?`, opts, opts.indexOf(target), o=>`<span class="face">${o.e}</span> ${esc(o.n)}`));
+      }
+      return inst(pickN(22,28,34), showHTML(emojiGrid(pics, true)), recallParts(parts), avgFrac(parts)); },
+    /* 4 Sentence Memory */
+    () => { const s = SENT_TEMPLATES[rnd(SENT_TEMPLATES.length)]();
+      const variants = shuffle([s.text,
+        s.text.replace(s.slots.who, sample(NAMES.filter(x=>x!==s.slots.who),1)[0]),
+        s.text.replace(/\d+/, m => String(parseInt(m,10)+2)),
+        s.text.replace('morning','evening').replace('noon','midnight').replace('Friday','Monday').replace('rang','rang twice')]);
+      const p1 = mcq('Which sentence did you see, word for word?', variants, variants.indexOf(s.text));
+      const whereOpts = shuffle([s.slots.where, 'the railway station','a desert island','the city zoo']);
+      const p2 = mcq('Where did it happen / where was it?', whereOpts, whereOpts.indexOf(s.slots.where));
+      const parts=[p1,p2];
+      return inst(pickN(18,22,26), showHTML(`<div class="sentence-big">${esc(s.text)}</div>`), recallParts(parts), avgFrac(parts)); },
+    /* 5 Alphabet Sequence Memory */
+    () => { const len = pickN(6,8,10); const letters = Array.from({length:len},()=> 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[rnd(26)]);
+      const ti = textInput('Type the letter sequence exactly as shown:', len+' letters');
+      const part = { el: ti.el, frac: () => seqFrac(ti.val().toUpperCase().replace(/[^A-Z]/g,'').split(''), letters) };
+      return inst(pickN(15,18,22), showHTML(`<div class="bigseq">${letters.join(' ')}</div>`), recallParts([part]), avgFrac([part])); },
+    /* 6 Colour Memory */
+    () => { const n = pickN(5,7,9); const seq = Array.from({length:n},()=>COLORS[rnd(COLORS.length)]);
+      const ob = orderBuilder('Tap the colours in the SAME order you saw them:', COLORS.map(c=>({id:c.n, html:`<span style="display:inline-block;width:20px;height:20px;border-radius:6px;background:${c.c};vertical-align:-4px;"></span> ${c.n}`})));
+      const part = { el: ob.el, frac: () => orderFrac(ob.order(), seq.map(c=>c.n)) };
+      return inst(pickN(16,20,24), showHTML(colorSeqHTML(seq) + `<p class="muted small" style="margin-top:12px;">${seq.map(c=>esc(c.n)).join(' · ')}</p>`), recallParts([part]), avgFrac([part])); },
+    /* 7 Name and Number Memory */
+    () => { const n = pickN(3,4,5); const names = sample(NAMES, n);
+      const pairs = names.map(nm => ({ nm, num: ri(100,999) }));
+      const parts = pairs.slice(0, pickN(2,3,3)).map(p => {
+        const opts = shuffle([...pairs.map(x=>x.num), ri(100,999)]).filter((v,i,a)=>a.indexOf(v)===i).slice(0,4);
+        if(!opts.includes(p.num)) opts[0] = p.num;
+        return mcq(`What was the number with ${esc(p.nm)}?`, opts.map(String), opts.indexOf(p.num));
+      });
+      return inst(pickN(20,26,32),
+        showHTML(`<div class="pairrows">${pairs.map(p=>`<div class="pairrow"><span>${esc(p.nm)}</span><span class="r">${p.num}</span></div>`).join('')}</div>`),
+        recallParts(parts), avgFrac(parts)); },
+    /* 8 Object Counting Memory */
+    () => { const kinds = sample(OBJECTS, 3);
+      const counts = kinds.map(() => ri(2, 8));
+      const scene = kinds.map((o,k) => `<div style="margin:8px 0;">${o.e.repeat(counts[k])}</div>`).join('');
+      const parts = kinds.map((o,k) => { const ni = numInput(`How many ${esc(o.n)} (${o.e}) were there?`);
+        return { el: ni.el, frac: () => ni.val() === counts[k] ? 1 : (ni.val() !== null && Math.abs(ni.val()-counts[k])===1 ? 0.5 : 0) }; });
+      return inst(pickN(18,22,26), showHTML(`<div class="emoji-grid" style="display:block;">${scene}</div>`), recallParts(parts), avgFrac(parts)); },
+    /* 9 Reverse Memory */
+    () => { const n = pickN(5,6,7); const words = sample(WORDS, n); const rev = words.slice().reverse();
+      const ob = orderBuilder('Arrange the words in REVERSE order (last shown first):', shuffle(words).map(w=>({id:w, html:esc(w)})));
+      const part = { el: ob.el, frac: () => orderFrac(ob.order(), rev) };
+      return inst(pickN(20,24,28), showHTML(wordChips(words, true)), recallParts([part]), avgFrac([part])); },
+    /* 10 Story Memory */
+    () => { const hero = sample(NAMES,1)[0], place = sample(['Kasaragod','Wayanad','Idukki','Palakkad','Alappuzha'],1)[0];
+      const obj = sample(OBJECTS,1)[0], num = ri(3,14), day = sample(['Monday','Tuesday','Thursday','Saturday'],1)[0];
+      const story = `${hero} travelled to ${place} on ${day}. Near the old bridge, ${hero} found a ${obj.n.toLowerCase()} ${obj.e} lying beside ${num} smooth stones. ${hero} picked it up, counted the stones twice to be sure, and carried everything home before sunset.`;
+      const wrong = (arr, right) => shuffle([right, ...sample(arr.filter(x=>x!==right), 3)]);
+      const stOpts = wrong(['Kasaragod','Wayanad','Idukki','Palakkad','Alappuzha','Kochi'], place);
+      const soOpts = wrong(OBJECTS.map(o=>o.n), obj.n);
+      const snOpts = wrong(['2','3','5','7','9','11','14','17'], String(num));
+      const sdOpts = wrong(['Monday','Tuesday','Thursday','Saturday','Friday'], day);
+      const parts = [
+        mcq('Where did the story happen?', stOpts, stOpts.indexOf(place)),
+        mcq(`What did ${esc(hero)} find?`, soOpts, soOpts.indexOf(obj.n)),
+        mcq('How many smooth stones were there?', snOpts, snOpts.indexOf(String(num))),
+        mcq('On which day did the journey happen?', sdOpts, sdOpts.indexOf(day))
+      ];
+      return inst(pickN(26,32,38), showHTML(`<div class="passage"><p>${esc(story)}</p></div>`),
+        host => { parts.forEach(p=>host.appendChild(p.el)); },
+        () => parts.reduce((s,p)=>s+p.frac(),0)/parts.length); },
+    /* 11 Word Position Memory */
+    () => { const n = pickN(6,8,10), words = sample(WORDS, n);
+      const pos1 = ri(1, n), w2 = sample(words,1)[0];
+      const p1Opts = shuffle([words[pos1-1], ...sample(words.filter(w=>w!==words[pos1-1]),3)]);
+      const p1 = mcq(`Which word was at position ${pos1}?`, p1Opts, p1Opts.indexOf(words[pos1-1]));
+      const opts2 = shuffle([String(words.indexOf(w2)+1), ...sample(['1','2','3','4','5','6','7','8','9','10'].filter(x=>x!==String(words.indexOf(w2)+1)),3)]);
+      const p2 = mcq(`At which position was "${esc(w2)}"?`, opts2, opts2.indexOf(String(words.indexOf(w2)+1)));
+      return inst(pickN(22,28,34), showHTML(wordChips(words, true)), recallParts([p1, p2]), avgFrac([p1, p2])); },
+    /* 12 Symbol Memory */
+    () => { const n = pickN(5,7,9); const seq = Array.from({length:n},()=>SYMBOLS[rnd(SYMBOLS.length)]);
+      const ob = orderBuilder('Tap the symbols in the SAME order you saw them:', SYMBOLS.map(s=>({id:s, html:`<span style="font-size:20px;">${s}</span>`})));
+      const part = { el: ob.el, frac: () => orderFrac(ob.order(), seq) };
+      return inst(pickN(16,20,24), showHTML(`<div class="bigseq">${seq.join(' ')}</div>`), recallParts([part]), avgFrac([part])); },
+    /* 13 Shape Recognition */
+    () => { const n = pickN(5,7,9);
+      const allCombos = SHAPES.flatMap(s => COLORS.slice(0,8).map(c => ({s, c})));
+      const combos = sample(allCombos, n);
+      const shownKeys = new Set(combos.map(x => x.s.n + '|' + x.c.n));
+      const show = `<div class="emoji-grid">${combos.map(x=>`<span class="emoji-cell"><svg width="60" height="60" viewBox="0 0 60 60">${x.s.svg(x.c.c)}</svg><span class="cap">${esc(x.s.n)} · ${esc(x.c.n)}</span></span>`).join('')}</div>`;
+      const parts = [];
+      for(let k=0;k<2;k++){
+        const target = sample(combos,1)[0];
+        const rest = sample(allCombos.filter(x => !shownKeys.has(x.s.n + '|' + x.c.n)), 3);
+        const opts = shuffle([target, ...rest]);
+        parts.push(mcq(`Question ${k+1}: Which shape was shown?`, opts, opts.indexOf(target),
+          o=>`<svg width="40" height="40" viewBox="0 0 60 60">${o.s.svg(o.c.c)}</svg> ${esc(o.s.n)} · ${esc(o.c.n)}`));
+      }
+      return inst(pickN(22,28,34), showHTML(show), recallParts(parts), avgFrac(parts)); },
+    /* 14 Pattern Memory */
+    () => { const size = pickN(4,4,5), litN = pickN(5,7,9);
+      const cells = Array.from({length:size*size},(_,i)=>i);
+      const lit = new Set(sample(cells, litN));
+      let part;
+      const renderShowF = box => { box.innerHTML = `<div class="gridboard" style="grid-template-columns:repeat(${size},auto);">${cells.map(i=>`<div class="gcell ${lit.has(i)?'lit':''}"></div>`).join('')}</div>`; };
+      const renderRecallF = host => {
+        const q = document.createElement('div'); q.className='q';
+        q.innerHTML = `<div class="qp">Rebuild the pattern — tap the squares that were lit:</div>`;
+        const grid = document.createElement('div'); grid.className='gridboard';
+        grid.style.gridTemplateColumns = `repeat(${size},auto)`;
+        const mine = new Set();
+        cells.forEach(i => { const b=document.createElement('button'); b.type='button'; b.className='gcell';
+          b.addEventListener('click',()=>{ mine.has(i)?mine.delete(i):mine.add(i); b.classList.toggle('lit'); });
+          grid.appendChild(b); });
+        q.appendChild(grid); host.appendChild(q);
+        part = { frac: () => { let ok=0; cells.forEach(i=>{ if(lit.has(i)===mine.has(i)) ok++; }); return ok/cells.length; } };
+      };
+      return inst(pickN(16,20,24), renderShowF, renderRecallF, () => part.frac()); },
+    /* 15 Face Recognition */
+    () => { const n = pickN(4,5,6); const faces = sample(FACES, n), names = sample(NAMES, n);
+      const pairs = faces.map((f,i)=>({f, nm:names[i]}));
+      const t1 = sample(pairs,1)[0], t2 = sample(pairs.filter(p=>p!==t1),1)[0];
+      const o1 = shuffle([t1.nm, ...sample(NAMES.filter(x=>!names.includes(x)),3)]);
+      const p1 = mcq(`Who had this face? <span class="face">${t1.f}</span>`, o1, o1.indexOf(t1.nm));
+      const o2 = shuffle([t2.f, ...sample(FACES.filter(x=>!faces.includes(x)),3)]);
+      const p2 = mcq(`Which face belonged to ${esc(t2.nm)}?`, o2, o2.indexOf(t2.f), o=>`<span class="face">${o}</span>`);
+      return inst(pickN(20,26,32),
+        showHTML(`<div class="emoji-grid">${pairs.map(p=>`<span class="emoji-cell">${p.f}<span class="cap">${esc(p.nm)}</span></span>`).join('')}</div>`),
+        recallParts([p1,p2]), avgFrac([p1,p2])); },
+    /* 16 Location Memory */
+    () => { const size = pickN(3,3,4), cells = size*size;
+      const items = sample(OBJECTS, pickN(4,5,6));
+      const spots = sample(Array.from({length:cells},(_,i)=>i), items.length);
+      const place = {}; items.forEach((o,k)=>place[o.n]=spots[k]);
+      const renderShowF = box => { box.innerHTML = `<div class="gridboard" style="grid-template-columns:repeat(${size},auto);">${Array.from({length:cells},(_,i)=>{ const k=spots.indexOf(i); return `<div class="gcell">${k>=0?items[k].e:''}</div>`; }).join('')}</div>`; };
+      const parts = sample(items, 2).map(o => {
+        let sel = -1; const q = document.createElement('div'); q.className='q';
+        q.innerHTML = `<div class="qp">Where was the ${esc(o.n)} ${o.e}? Tap its square:</div>`;
+        const grid = document.createElement('div'); grid.className='gridboard'; grid.style.gridTemplateColumns=`repeat(${size},auto)`;
+        for(let i=0;i<cells;i++){ const b=document.createElement('button'); b.type='button'; b.className='gcell';
+          b.addEventListener('click',()=>{ sel=i; grid.querySelectorAll('.gcell').forEach((e,j)=>e.classList.toggle('picked', j===i)); });
+          grid.appendChild(b); }
+        q.appendChild(grid);
+        return { el: q, frac: () => sel === place[o.n] ? 1 : 0 };
+      });
+      return inst(pickN(20,26,32), renderShowF, recallParts(parts), avgFrac(parts)); },
+    /* 17 Direction Memory */
+    () => { const n = pickN(5,7,9); const seq = Array.from({length:n},()=>DIRS[rnd(DIRS.length)]);
+      const ob = orderBuilder('Tap the directions in the SAME order you saw them:', DIRS.map(d=>({id:d.n, html:`${d.a} ${d.n}`})));
+      const part = { el: ob.el, frac: () => orderFrac(ob.order(), seq.map(d=>d.n)) };
+      return inst(pickN(16,20,24), showHTML(`<div class="emoji-grid">${seq.map(d=>`<span class="emoji-cell">${d.a}<span class="cap">${esc(d.n)}</span></span>`).join('')}</div>`), recallParts([part]), avgFrac([part])); },
+    /* 18 Date and Time Memory */
+    () => { const n = pickN(3,4,5); const events = sample(['Football final','Science exhibition','Library opening','Art competition','Drama rehearsal','Chess tournament','Poetry evening','Robotics demo'], n);
+      const cards = events.map(ev => ({ ev, date: `${ri(1,28)} ${sample(['January','February','March','April','May','June'],1)[0]}`, time: `${ri(1,12)}:${sample(['00','15','30','45'],1)[0]} ${sample(['AM','PM'],1)[0]}` }));
+      const t = sample(cards,1)[0], t2 = sample(cards.filter(c=>c!==t),1)[0];
+      const od = shuffle([t.date, ...sample(cards.filter(c=>c!==t).map(c=>c.date).concat(['7 July','19 August']),3)]).slice(0,4);
+      if(!od.includes(t.date)) od[0]=t.date;
+      const p1 = mcq(`On which date is the ${esc(t.ev)}?`, od, od.indexOf(t.date));
+      const ot = shuffle([t2.time, ...sample(cards.filter(c=>c!==t2).map(c=>c.time).concat(['6:00 PM','9:30 AM']),3)]).slice(0,4);
+      if(!ot.includes(t2.time)) ot[0]=t2.time;
+      const p2 = mcq(`At what time is the ${esc(t2.ev)}?`, ot, ot.indexOf(t2.time));
+      return inst(pickN(20,26,32),
+        showHTML(`<div class="pairrows">${cards.map(c=>`<div class="pairrow"><span>${esc(c.ev)}</span><span class="r">${esc(c.date)} · ${esc(c.time)}</span></div>`).join('')}</div>`),
+        recallParts([p1,p2]), avgFrac([p1,p2])); },
+    /* 19 Object Arrangement Memory */
+    () => { const n = pickN(5,7,8); const items = sample(OBJECTS, n);
+      const ob = orderBuilder('Arrange the objects in the SAME left-to-right order you saw:', shuffle(items).map(o=>({id:o.n, html:`${o.e} ${esc(o.n)}`})));
+      const part = { el: ob.el, frac: () => orderFrac(ob.order(), items.map(o=>o.n)) };
+      return inst(pickN(18,24,30), showHTML(emojiGrid(items, true)), recallParts([part]), avgFrac([part])); },
+    /* 20 Missing Item Memory */
+    () => { const n = pickN(7,9,11); const items = sample(WORDS, n);
+      const missN = pickN(1,1,2); const missing = sample(items, missN);
+      const rest = items.filter(w=>!missing.includes(w));
+      const opts = shuffle([...missing.map(w=>({id:w,label:w})), ...sample(WORDS.filter(w=>!items.includes(w)),4).map(w=>({id:'x'+w,label:w}))]);
+      const ms = multiSelect(`One list is shown again below in the recall — which item(s) are MISSING from it?<br><span class="muted small">Second list: ${rest.join(', ')}</span>`, opts, new Set(missing));
+      return inst(pickN(22,28,34), showHTML(wordChips(items)), recallParts([ms]), avgFrac([ms])); },
+    /* 21 Order Reconstruction */
+    () => { const proc = PROCESSES[rnd(PROCESSES.length)]; const steps = proc.steps.slice(0, pickN(4,5,6));
+      const ob = orderBuilder(`Put the steps of "${esc(proc.t)}" back in the correct order:`, shuffle(steps).map((s,i)=>({id:s, html:esc(s)})));
+      const part = { el: ob.el, frac: () => orderFrac(ob.order(), steps) };
+      return inst(pickN(24,30,36), showHTML(`<div class="passage"><p><b>${esc(proc.t)}</b></p>${steps.map((s,i)=>`<p>${i+1}. ${esc(s)}</p>`).join('')}</div>`), recallParts([part]), avgFrac([part])); },
+    /* 22 Audio Memory (judge-read-aloud) */
+    () => { const n = pickN(5,7,9);
+      const seq = Array.from({length:n},(_,i)=> i%2 ? String(ri(10,99)) : sample(WORDS,1)[0]);
+      const ob = orderBuilder('Arrange the items in the order the judge read them:', shuffle(seq.map((s,i)=>({id:i+'|'+s, html:esc(s)}))));
+      const correctIds = seq.map((s,i)=>i+'|'+s);
+      const part = { el: ob.el, frac: () => orderFrac(ob.order(), correctIds) };
+      return inst(pickN(20,26,32),
+        showHTML(`<div class="judge-note" style="text-align:left;"><b>For the judge / a friend:</b> read the sequence below aloud, clearly, twice. The player must only LISTEN — cover this card while it is read. Solo players: read it aloud yourself, then press the recall button.</div><div class="bigseq" style="letter-spacing:.06em; font-size:clamp(20px,5.4vw,32px);">${seq.map(esc).join(' · ')}</div>`),
+        recallParts([part]), avgFrac([part]),
+        'Read the sequence aloud twice, clearly. The player listens only and must not write anything down.'); },
+    /* 23 Visual Observation Memory */
+    () => { const row = sample(OBJECTS, 5); const stars = ri(2,6);
+      const show = `<div class="emoji-grid">${row.map(o=>`<span class="emoji-cell">${o.e}<span class="cap">${esc(o.n)}</span></span>`).join('')}</div><div style="font-size:30px; margin-top:10px;">${'⭐'.repeat(stars)}</div>`;
+      const mid = row[2], right = row[4];
+      const o1 = shuffle([mid.n, ...sample(OBJECTS.filter(o=>!row.includes(o)),3).map(o=>o.n)]);
+      const parts = [
+        mcq('Which object was in the MIDDLE of the row?', o1, o1.indexOf(mid.n)),
+        mcq('How many stars were under the row?', shuffle([String(stars), String(stars+1), String(stars+2), String(Math.max(1,stars-1))]).filter((v,i,a)=>a.indexOf(v)===i).slice(0,4).concat([]), 0),
+        mcq('Which object was at the FAR RIGHT?', shuffle([right.n, ...sample(row.filter(o=>o!==right),2).map(o=>o.n), sample(OBJECTS.filter(o=>!row.includes(o)),1)[0].n]), 0)
+      ];
+      // rebuild Q2 & Q3 with correct indices:
+      const q2opts = shuffle([String(stars), String(stars+1), String(stars+2), String(Math.max(1,stars-1))].filter((v,i,a)=>a.indexOf(v)===i));
+      parts[1] = mcq('How many stars were under the row?', q2opts, q2opts.indexOf(String(stars)));
+      const q3opts = shuffle([right.n, ...sample(OBJECTS.filter(o=>o!==right),3).map(o=>o.n)]);
+      parts[2] = mcq('Which object was at the FAR RIGHT?', q3opts, q3opts.indexOf(right.n));
+      return inst(pickN(16,20,24), showHTML(show), recallParts(parts), avgFrac(parts)); },
+    /* 24 Mathematical Sequence Memory */
+    () => { const start = ri(2, 20), step = ri(2, 9), len = pickN(5,6,6);
+      const seq = Array.from({length:len},(_,i)=>start + step*i);
+      const next1 = start + step*len, next2 = start + step*(len+1);
+      const n1 = numInput(`The sequence was: ${seq.join(', ')}, … — what comes NEXT?`);
+      const n2 = numInput('And the number after that?');
+      const parts = [
+        { el: n1.el, frac: () => n1.val() === next1 ? 1 : 0 },
+        { el: n2.el, frac: () => n2.val() === next2 ? 1 : 0 }
+      ];
+      return inst(pickN(18,22,26), showHTML(`<div class="bigseq" style="letter-spacing:.08em;">${seq.join(', ')}</div><p class="muted">Memorise the pattern, not just the numbers.</p>`), recallParts(parts), avgFrac(parts)); },
+    /* 25 Pair Matching Memory */
+    () => { const n = pickN(3,4,5); const pairs = sample(PAIRS, n);
+      const rights = PAIRS.map(p=>p[1]);
+      const parts = pairs.map(p => {
+        const opts = shuffle([p[1], ...sample(rights.filter(r=>r!==p[1]), 3)]);
+        return mcq(`What was paired with "${esc(p[0])}"?`, opts, opts.indexOf(p[1]));
+      });
+      return inst(pickN(22,28,34),
+        showHTML(`<div class="pairrows">${pairs.map(p=>`<div class="pairrow"><span>${esc(p[0])}</span><span class="r">${esc(p[1])}</span></div>`).join('')}</div>`),
+        recallParts(parts), avgFrac(parts)); },
+    /* 26 Paragraph Reproduction */
+    () => { const hero = sample(NAMES,1)[0], place = sample(['the riverside village','the hill town','the coastal city'],1)[0];
+      const obj = sample(OBJECTS,1)[0], num = ri(4, 20);
+      const para = `${hero} lived in ${place} and kept a small notebook of everything worth remembering. One spring morning, ${hero} counted ${num} boats on the water, bought a ${obj.n.toLowerCase()} from the market, and wrote the day's lesson in the notebook: a memory that is written and revisited is a memory that stays.`;
+      const keywords = [...new Set(para.toLowerCase().replace(/[^a-z\s]/g,'').split(/\s+/).filter(w=>w.length>3))];
+      const ta = document.createElement('div'); ta.className='q';
+      ta.innerHTML = `<div class="qp">Rewrite the paragraph from memory — as close as you can (scored on how many key words you reproduce):</div>`;
+      const area = document.createElement('textarea'); area.placeholder = 'Type the paragraph here…'; ta.appendChild(area);
+      const part = { el: ta, frac: () => { const mine = new Set(area.value.toLowerCase().replace(/[^a-z\s]/g,'').split(/\s+/)); let hit=0; keywords.forEach(k=>{ if(mine.has(k)) hit++; }); return keywords.length ? hit/keywords.length : 0; } };
+      return inst(pickN(30,36,42), showHTML(`<div class="passage"><p>${esc(para)}</p></div>`), recallParts([part]), avgFrac([part])); },
+    /* 27 Mixed Information Memory */
+    () => { const nm = sample(NAMES,1)[0], age = ri(11, 17), city = sample(['Kochi','Calicut','Malappuram','Thrissur','Kannur','Palakkad'],1)[0];
+      const col = sample(COLORS,1)[0], pet = sample(['cat','dog','parrot','rabbit','goat'],1)[0], lucky = ri(2, 30);
+      const card = `<div class="pairrows">
+        <div class="pairrow"><span>Name</span><span class="r">${esc(nm)}</span></div>
+        <div class="pairrow"><span>Age</span><span class="r">${age}</span></div>
+        <div class="pairrow"><span>City</span><span class="r">${esc(city)}</span></div>
+        <div class="pairrow"><span>Favourite colour</span><span class="r">${esc(col.n)}</span></div>
+        <div class="pairrow"><span>Pet</span><span class="r">${esc(pet)}</span></div>
+        <div class="pairrow"><span>Lucky number</span><span class="r">${lucky}</span></div></div>`;
+      const parts = [
+        mcq('Which city?', shuffle([city, ...sample(['Kochi','Calicut','Malappuram','Thrissur','Kannur','Palakkad'].filter(c=>c!==city),3)]), 0),
+        mcq('What is the lucky number?', shuffle([String(lucky), String(lucky+3), String(lucky+7), String(Math.max(1,lucky-2))]).filter((v,i,a)=>a.indexOf(v)===i), 0),
+        mcq('Which pet?', shuffle([pet, ...sample(['cat','dog','parrot','rabbit','goat'].filter(p=>p!==pet),3)]), 0)
+      ];
+      const fix = (arr, right) => { const o = shuffle([right, ...arr.filter(x=>x!==right).slice(0,3)]); return o; };
+      const cOpts = fix(['Kochi','Calicut','Malappuram','Thrissur','Kannur','Palakkad'], city);
+      parts[0] = mcq('Which city?', cOpts, cOpts.indexOf(city));
+      const nOpts = [...new Set([String(lucky), String(lucky+3), String(lucky+7), String(Math.max(1,lucky-2))])]; const nSh = shuffle(nOpts);
+      parts[1] = mcq('What is the lucky number?', nSh, nSh.indexOf(String(lucky)));
+      const pOpts = fix(['cat','dog','parrot','rabbit','goat'], pet);
+      parts[2] = mcq('Which pet?', pOpts, pOpts.indexOf(pet));
+      return inst(pickN(20,26,32), showHTML(card), recallParts(parts), avgFrac(parts)); },
+    /* 28 Image Detail Identification */
+    () => { const grid = sample(OBJECTS, 9);
+      const show = `<div class="gridboard" style="grid-template-columns:repeat(3,auto);">${grid.map(o=>`<div class="gcell">${o.e}</div>`).join('')}</div>`;
+      const tl = grid[0], br = grid[8];
+      const o1 = shuffle([tl.n, ...sample(OBJECTS.filter(o=>!grid.includes(o)),3).map(o=>o.n)]);
+      const o2 = shuffle([br.n, ...sample(OBJECTS.filter(o=>!grid.includes(o)),3).map(o=>o.n)]);
+      const parts = [
+        mcq('What was in the TOP-LEFT corner of the picture?', o1, o1.indexOf(tl.n)),
+        mcq('What was in the BOTTOM-RIGHT corner?', o2, o2.indexOf(br.n)),
+        mcq(`Was the ${sample(grid,1)[0].n} in the picture?`, ['Yes','No'], 0)
+      ];
+      const present = sample(grid,1)[0];
+      const o3 = shuffle([present.n, sample(OBJECTS.filter(o=>!grid.includes(o)),1)[0].n]);
+      parts[2] = mcq('Which of these WAS in the picture?', o3, o3.indexOf(present.n));
+      return inst(pickN(18,24,30), showHTML(show), recallParts(parts), avgFrac(parts)); },
+    /* 29 Logical Recall Challenge */
+    () => { const trio = sample(NAMES, 3); // trio[0] tallest, trio[1] middle, trio[2] shortest
+      const items = sample(OBJECTS, 3);
+      const facts = `${trio[0]} is taller than ${trio[1]}. ${trio[1]} is taller than ${trio[2]}. The ${items[0].n} ${items[0].e} is kept to the LEFT of the ${items[1].n} ${items[1].e}, and the ${items[1].n} is to the LEFT of the ${items[2].n} ${items[2].e}.`;
+      const o1 = shuffle(trio.slice()), o2 = shuffle(trio.slice());
+      const parts = [
+        mcq('Who is the TALLEST?', o1, o1.indexOf(trio[0])),
+        mcq('Who is in the MIDDLE height?', o2, o2.indexOf(trio[1])),
+        mcq(`Which object is on the far LEFT?`, shuffle(items.map(o=>o.n)), 0)
+      ];
+      const o3 = shuffle(items.map(o=>o.n));
+      parts[2] = mcq('Which object is on the far LEFT?', o3, o3.indexOf(items[0].n));
+      return inst(pickN(22,28,34), showHTML(`<div class="passage"><p>${esc(facts)}</p></div>`), recallParts(parts), avgFrac(parts)); },
+    /* 30 Grand Finale – Ultimate Memory Challenge */
+    () => { const words = sample(WORDS, 4), num = Array.from({length:4},()=>ri(1,9)), cols = sample(COLORS, 3), obj = sample(OBJECTS,1)[0];
+      const show = `${wordChips(words)}<div class="bigseq" style="margin:16px 0;">${num.join(' ')}</div>${colorSeqHTML(cols)}<div class="emoji-grid" style="margin-top:14px;"><span class="emoji-cell">${obj.e}<span class="cap">${esc(obj.n)}</span></span></div>`;
+      const distract = sample(WORDS.filter(w=>!words.includes(w)), 4);
+      const ms = multiSelect('Part 1 — select the 4 words:', shuffle([...words.map(w=>({id:w,label:w})), ...distract.map(w=>({id:'x'+w,label:w}))]), new Set(words));
+      const ti = textInput('Part 2 — type the 4-digit number:', '4 digits');
+      const pNum = { el: ti.el, frac: () => seqFrac(ti.val().replace(/\D/g,'').split('').map(Number), num) };
+      const ob = orderBuilder('Part 3 — tap the 3 colours in order:', COLORS.map(c=>({id:c.n, html:`<span style="display:inline-block;width:20px;height:20px;border-radius:6px;background:${c.c};vertical-align:-4px;"></span> ${c.n}`})));
+      const pCol = { el: ob.el, frac: () => orderFrac(ob.order(), cols.map(c=>c.n)) };
+      const oOpts = shuffle([obj.n, ...sample(OBJECTS.filter(o=>o!==obj),3).map(o=>o.n)]);
+      const pObj = mcq('Part 4 — which object was shown?', oOpts, oOpts.indexOf(obj.n));
+      const parts = [ms, pNum, pCol, pObj];
+      return inst(pickN(34,40,46), showHTML(show), recallParts(parts), avgFrac(parts)); }
+    ];
+    const ROUND_NAMES = ["Word Memorization","Number Sequence Memory","Picture Memory","Sentence Memory","Alphabet Sequence Memory","Colour Memory","Name and Number Memory","Object Counting Memory","Reverse Memory","Story Memory","Word Position Memory","Symbol Memory","Shape Recognition","Pattern Memory","Face Recognition","Location Memory","Direction Memory","Date and Time Memory","Object Arrangement Memory","Missing Item Memory","Order Reconstruction","Audio Memory","Visual Observation Memory","Mathematical Sequence Memory","Pair Matching Memory","Paragraph Reproduction","Mixed Information Memory","Image Detail Identification","Logical Recall Challenge","Grand Finale – Ultimate Memory Challenge"];
+    const DHAKIRA_DEFS = ROUND_NAMES.map((name, i) => ({ name, max: i < 20 ? 3 : 4, make: GEN[i] }));
+
+    /* ================= BNO14 Memory Test (5 stages) ================= */
+    const BNO14_PASSAGE = `In the village of Thennala, beside the slow green river, stood a small library built in the year 1962. Its librarian, an old man named Kunhimoideen, opened its doors every morning at seven o'clock. The library held exactly 4,250 books, arranged on nine tall wooden shelves. On the wall hung a blue clock that had not worked for twelve years, yet nobody wished to remove it. Every Friday, twenty school children came to hear Kunhimoideen read a story under the banyan tree outside. He always began with the same words: "A village that reads, remembers." When he retired at the age of seventy-five, the children planted a mango sapling beside the library door, so that its shade would guard the books for years to come.`;
+    const BNO14_ITEMS = ["red umbrella","brass key","blue cup","pencil","banana","green book","silver spoon","white shoe","orange ball","glass bottle","yellow flower","black watch"];
+    const BNO14_DEFS = [
+      { name: "The Village Library — Passage Memory", max: 20, make: () => {
+          const q = (prompt, right, wrongs) => { const o = shuffle([right, ...wrongs]); return mcq(prompt, o, o.indexOf(right)); };
+          const parts = [
+            q('In which year was the library built?', '1962', ['1952','1972','1985']),
+            q('What was the librarian\'s name?', 'Kunhimoideen', ['Abdu Rahman','Moideen Kutty','Kunhalan']),
+            q('How many books did the library hold?', '4,250', ['2,450','4,520','5,250']),
+            q('On which day did the children come for the story?', 'Friday', ['Monday','Wednesday','Sunday']),
+            q('What did the children plant when he retired?', 'A mango sapling', ['A coconut palm','A rose bush','A jackfruit tree'])
+          ];
+          return inst(pickN(45,55,65), showHTML(`<div class="passage"><p>${esc(BNO14_PASSAGE)}</p></div>`), recallParts(parts), avgFrac(parts),
+            'Read the passage silently and carefully. You will be asked questions about its details. Nothing may be written down.');
+        } },
+      { name: "The Twelve Objects", max: 20, make: () => {
+          const distract = ["purple hat","wooden ruler","copper coin","paper boat","striped scarf","iron nail"];
+          const opts = shuffle([...BNO14_ITEMS.map(w=>({id:w,label:w})), ...distract.map(w=>({id:'x'+w,label:w}))]);
+          const ms = multiSelect('Select ALL 12 objects that were on the list:', opts, new Set(BNO14_ITEMS));
+          return inst(pickN(35,42,50), showHTML(wordChips(BNO14_ITEMS)), recallParts([ms]), avgFrac([ms]),
+            'Look at the twelve objects and fix each one in your mind. In the recall, pick exactly those twelve from a longer list.');
+        } },
+      { name: "Judge-Read-Aloud Memory", max: 20, make: () => {
+          const seq = ["Seven","River","Nineteen","Candle","Forty-two","Garden","Eleven","Silver","Ninety","Market"];
+          const ob = orderBuilder('Arrange the words and numbers in the order the judge read them:', shuffle(seq.map((s,i)=>({id:i+'|'+s, html:esc(s)}))));
+          const correctIds = seq.map((s,i)=>i+'|'+s);
+          const part = { el: ob.el, frac: () => orderFrac(ob.order(), correctIds) };
+          return inst(pickN(35,42,50),
+            showHTML(`<div class="judge-note" style="text-align:left;"><b>For the judge / a friend:</b> read the list below aloud, clearly, twice, at a steady pace. The candidate must only LISTEN — cover this card while reading. Solo players: read it aloud yourself, then press recall.</div><div class="bigseq" style="letter-spacing:.05em; font-size:clamp(19px,5vw,30px);">${seq.join(' · ')}</div>`),
+            recallParts([part]), avgFrac([part]),
+            'The judge reads the list aloud twice. The candidate listens only — eyes on the judge, nothing written down.');
+        } },
+      { name: "Word & Number Chain", max: 20, make: () => {
+          const w = sample(WORDS, 4), chain = [];
+          for(let i=0;i<4;i++){ chain.push(w[i]); chain.push(String(ri(11,99))); }
+          const ob = orderBuilder('Rebuild the chain in the exact order shown:', shuffle(chain.map((s,i)=>({id:i+'|'+s, html:esc(s)}))));
+          const correctIds = chain.map((s,i)=>i+'|'+s);
+          const part = { el: ob.el, frac: () => orderFrac(ob.order(), correctIds) };
+          return inst(pickN(26,32,38), showHTML(wordChips(chain)), recallParts([part]), avgFrac([part]),
+            'Memorise the chain — word, number, word, number — in its exact order.');
+        } },
+      { name: "Picture Positions", max: 20, make: () => {
+          const items = sample(OBJECTS, 6); const spots = [0,1,2,3,4,5];
+          const renderShowF = box => { box.innerHTML = `<div class="gridboard" style="grid-template-columns:repeat(3,auto);">${spots.map(i=>`<div class="gcell">${items[i].e}</div>`).join('')}</div><p class="muted small" style="margin-top:10px;">${items.map(o=>esc(o.n)).join(' · ')}</p>`; };
+          const parts = sample(items, 2).map(o => {
+            let sel = -1; const qd = document.createElement('div'); qd.className='q';
+            qd.innerHTML = `<div class="qp">Where was the ${esc(o.n)} ${o.e}? Tap its square:</div>`;
+            const grid = document.createElement('div'); grid.className='gridboard'; grid.style.gridTemplateColumns='repeat(3,auto)';
+            for(let i=0;i<6;i++){ const b=document.createElement('button'); b.type='button'; b.className='gcell';
+              b.addEventListener('click',()=>{ sel=i; grid.querySelectorAll('.gcell').forEach((e,j)=>e.classList.toggle('picked', j===i)); });
+              grid.appendChild(b); }
+            qd.appendChild(grid);
+            return { el: qd, frac: () => sel === items.indexOf(o) ? 1 : 0 };
+          });
+          const oOpts = shuffle([items[0].n, ...sample(OBJECTS.filter(x=>!items.includes(x)),3).map(x=>x.n)]);
+          parts.push(mcq('Which object was in the TOP-LEFT square?', oOpts, oOpts.indexOf(items[0].n)));
+          return inst(pickN(24,30,36), renderShowF, recallParts(parts), avgFrac(parts),
+            'Fix the position of every picture in the 3 × 2 grid. You will be asked where individual pictures stood.');
+        } }
+    ];
+
+    /* ================= Results, report, leaderboard ================= */
+    function gradeWord(pct){
+      return pct >= 90 ? '🏆 Memory Legend!' : pct >= 75 ? '🌟 Outstanding memory!' : pct >= 60 ? '👏 Strong recall!' :
+             pct >= 45 ? '💪 Good effort — keep training!' : pct >= 30 ? '🌱 A fair start — practise daily!' : '🔁 Every champion began somewhere — try again!';
+    }
+    function reportText(got, max, pct, reason){
+      const L = [];
+      L.push('DHAAKIRA – The Grand Memory Arena');
+      L.push("SIBAQ'26 – National Arts Fest · Darul Huda Islamic University");
+      L.push('Observe. Remember. Recall.');
+      L.push('----------------------------------------');
+      L.push(`Name: ${G.user.name}`);
+      L.push(`Ad.No: ${G.user.adno}`);
+      L.push(`Avatar: ${avatarDesc(G.user.adno)} (chosen from this Ad.No; the same character appears at every sign-in)`);
+      L.push(`Paper: ${G.paper === 'dhaakira' ? 'DHAAKIRA (30 rounds)' : 'BNO14 Memory Test (5 stages)'}`);
+      L.push(`Level: ${G.level[0].toUpperCase() + G.level.slice(1)}`);
+      L.push(`Date: ${new Date().toLocaleString()}`);
+      L.push(`Finished: ${reason === 'time' ? 'Time up — auto-submitted' : reason === 'stopped' ? 'Stopped early by player' : 'Completed all rounds'}`);
+      L.push('----------------------------------------');
+      G.scores.forEach((r, i) => L.push(`${String(i+1).padStart(2,' ')}. ${r.name} — ${fmtMarks(r.got)} / ${r.max}`));
+      L.push('----------------------------------------');
+      L.push(`TOTAL: ${fmtMarks(got)} / ${max}`);
+      L.push(`PERCENTAGE: ${pct.toFixed(1)}%`);
+      L.push(gradeWord(pct));
+      return L.join('\n');
+    }
+    function renderResults(reason, got, max, pct){
+      const rows = G.scores.map((r, i) => `
+        <tr><td>${i+1}. ${esc(r.name)}</td>
+        <td><div class="bar-wrap"><div class="bar-fill" style="width:${r.max ? r.got/r.max*100 : 0}%"></div></div></td>
+        <td class="r"><b>${fmtMarks(r.got)}</b> / ${r.max}</td></tr>`).join('');
+      $('resultsCard').innerHTML = `
+        <h2 class="center" style="margin-bottom:0;">${reason === 'time' ? "⏰ Time's up — auto-submitted!" : reason === 'stopped' ? '■ Game stopped' : '🏁 Arena complete!'}</h2>
+        <div class="res-avatar">${dancerHTML(pct)}</div>
+        <div class="avatar-caption">This is your avatar</div>
+        <div class="center"><span class="char-big">${charFor(G.user.adno).emoji} ${esc(charFor(G.user.adno).name)}</span><br /><span class="char-sub">from ${esc(charFor(G.user.adno).cartoon)}</span></div>
+        <div class="pct-big">${pct.toFixed(1)}%</div>
+        <div class="marks-big">${G.user.name} · Ad.No ${G.user.adno}<br />${fmtMarks(got)} / ${max} marks · ${G.paper === 'dhaakira' ? 'DHAAKIRA' : 'BNO14'} · ${esc(G.level)}</div>
+        <p class="center" style="font-size:17px; font-weight:800; margin:10px 0 4px;">${gradeWord(pct)}</p>
+        <p class="mood-line">${moodLine(pct)}</p>
+        <h3 style="margin-top:18px;">Round-wise marks</h3>
+        <table class="marks"><tr><th>Round</th><th></th><th class="r">Marks</th></tr>${rows}</table>
+        <div class="btnrow">
+          <button class="btn primary" id="resDownload" type="button">⬇ Download result report</button>
+          <button class="btn" id="resCopy" type="button">📋 Copy report</button>
+        </div>
+        <div class="btnrow">
+          <button class="btn celebrate" id="resAgain" type="button">🎉 Play again — celebrate!</button>
+          <button class="btn" id="resHome" type="button">⌂ Home</button>
+        </div>`;
+      const txt = reportText(got, max, pct, reason);
+      $('resDownload').addEventListener('click', () => downloadBlob(txt, `dhaakira-result-${G.user.adno}.txt`, 'text/plain'));
+      $('resCopy').addEventListener('click', () => copyText(txt));
+      $('resAgain').addEventListener('click', () => startGame());
+      $('resHome').addEventListener('click', () => showScreen('home'));
+      renderLeaderboard();
+    }
+    function renderLeaderboard(){
+      const sorted = G.leaderboard.slice().sort((a,b)=> b.pct - a.pct || b.got - a.got);
+      const html = sorted.length ? sorted.map((e, i) => `
+        <div class="lb-row"><span class="rank">${i+1}</span>
+          ${avatarHTML(e.adno, 'av-sm')}
+          <span class="who">${esc(e.name)}</span><span class="muted">Ad.No ${e.adno} · <span class="char-name">${charFor(e.adno).emoji} ${esc(charFor(e.adno).name)}</span> · ${e.paper} · ${esc(e.level)}</span>
+          <span class="sc">${fmtMarks(e.got)}/${e.max} · ${e.pct.toFixed(1)}%</span></div>`).join('')
+        : '<p class="muted small">No finished games yet this visit. Be the first on the board!</p>';
+      $('lbList').innerHTML = html; $('lbList2').innerHTML = html;
+    }
+    function downloadBlob(content, filename, type){
+      const blob = new Blob([content], { type: type + ';charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+    }
+    function copyText(txt){
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(txt).then(() => toast('Report copied ✓'), () => fallbackCopy(txt));
+      } else fallbackCopy(txt);
+    }
+    function fallbackCopy(txt){
+      const ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); toast('Report copied ✓'); } catch(e){ toast('Copy failed — use Download instead'); }
+      ta.remove();
+    }
+    /* Download the whole app as ONE standalone HTML file */
+    function downloadApp(){
+      const clone = document.documentElement.cloneNode(true);
+      clone.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const auth = clone.querySelector('#screen-auth'); if(auth) auth.classList.add('active');
+      const picker = clone.querySelector('#themePicker'); if(picker) picker.classList.remove('open');
+      ['phaseHost','resultsCard','lbList','lbList2','btHost'].forEach(id => { const el = clone.querySelector('#'+id); if(el) el.innerHTML=''; });
+      const cSpinBtn = clone.querySelector('#spinBtn'); if(cSpinBtn){ cSpinBtn.disabled = false; cSpinBtn.textContent = '🎡 Spin the wheel!'; }
+      const cWheel = clone.querySelector('#spinWheel'); if(cWheel) cWheel.style.transform = '';
+      const cSpinRes = clone.querySelector('#spinResult'); if(cSpinRes) cSpinRes.textContent = '';
+      const cDailyTick = clone.querySelector('#dailyTick'); if(cDailyTick) cDailyTick.style.display = 'none';
+      const cDailyNote = clone.querySelector('#dailyDoneNote'); if(cDailyNote) cDailyNote.style.display = 'none';
+      const cGal = clone.querySelector('#galleryHost'); if(cGal) cGal.classList.add('hidden');
+      clone.querySelectorAll('input').forEach(i => i.value = '');
+      clone.querySelectorAll('.overlay').forEach(o => o.classList.remove('open'));
+      const toastEl = clone.querySelector('#toast'); if(toastEl) toastEl.classList.remove('show');
+      const html = '<!doctype html>\n' + clone.outerHTML;
+      downloadBlob(html, 'dhaakira-grand-memory-arena.html', 'text/html');
+      toast('Downloading DHAAKIRA — one HTML file, works offline ✓');
+    }
+
+    /* ================= Brain Training Modes ================= */
+    /* Points + speed bonus live ONLY here. The Arena keeps its 100-marks scoring. */
+    const BT = {
+      total: 0, session: 0, mode: null, diff: 'easy', stage: 1,
+      playing: false, run: 0, showInt: null, showLeft: 0, recallStart: 0,
+      bests: {}, timeouts: []
+    };
+    const BT_MODES = [
+      { id:'number',   name:'Number Memory',   ico:'123', desc:'A digit sequence flashes up — memorise it and type it back exactly.' },
+      { id:'pattern',  name:'Pattern Memory',  ico:'▦',   desc:'A pattern of lit squares appears — rebuild it on the empty grid.' },
+      { id:'color',    name:'Color Memory',    ico:'●●●', desc:'Colours appear in an order — replay the same order from memory.' },
+      { id:'word',     name:'Word Memory',     ico:'Aa',  desc:'Study a list of words — then pick every word you saw from a longer list.' },
+      { id:'sequence', name:'Sequence Memory', ico:'»»',  desc:'Four pads flash in a growing sequence — repeat it by tapping the pads.' },
+      { id:'grid',     name:'Grid Memory',     ico:'▤',   desc:'Tiles light up one by one — tap every tile that lit up.' }
+    ];
+    const btCap = s => s[0].toUpperCase() + s.slice(1);
+    function btBase(){ return BT.diff === 'easy' ? 0 : BT.diff === 'medium' ? 1 : 2; }
+    function btLater(fn, ms){ const id = setTimeout(fn, ms); BT.timeouts.push(id); return id; }
+    function btClearTimers(){ BT.timeouts.forEach(clearTimeout); BT.timeouts = []; clearInterval(BT.showInt); }
+    function btModeName(){ const m = BT_MODES.find(x => x.id === BT.mode); return m ? m.name : 'Brain Training'; }
+
+    function renderBtGrid(){
+      const grid = $('btGrid'); grid.innerHTML = '';
+      BT_MODES.forEach(m => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'mode-card';
+        const best = BT.bests[m.id];
+        b.innerHTML = `<span class="mode-ico">${esc(m.ico)}</span>
+          <div class="mt-name">${esc(m.name)}</div>
+          <div class="mt-desc">${esc(m.desc)}</div>
+          <div class="mt-best">${best ? 'Best session: ' + best + ' pts' : 'Not played yet — tap to start'}</div>`;
+        b.addEventListener('click', () => btStart(m.id));
+        grid.appendChild(b);
+      });
+    }
+    function btDrawBar(){
+      $('btTitle').textContent = btModeName();
+      $('btStage').textContent = `Stage ${BT.stage} · ${btCap(BT.diff)}`;
+      $('btSession').textContent = `Session ${BT.session} pts`;
+      $('btTotal').textContent = `Total ${BT.total} pts`;
+      $('btHomeTotal').textContent = BT.total;
+    }
+    function btStart(modeId){
+      btClearTimers();
+      BT.mode = modeId; BT.stage = 1; BT.session = 0; BT.playing = true; BT.run++;
+      JOY.triedModes.add(modeId);
+      if(JOY.triedModes.size >= BT_MODES.length) awardBadge('explorer');
+      showScreen('brain');
+      btDrawBar();
+      btNextRound();
+    }
+    function btQuit(){
+      askConfirm('End brain training?', 'This session ends. Your total score so far is kept.', 'End session', () => {
+        btClearTimers(); BT.playing = false; BT.run++;
+        $('pauseOverlay').classList.remove('open');
+        btDrawBar(); showScreen('home');
+      });
+    }
+    function btPhaseShell(label){
+      const host = $('btHost');
+      host.innerHTML = `
+        <div class="phasebar"><div id="btFill"></div></div>
+        <div class="phase-label"><span>${esc(label)}</span><span id="btSecs"></span></div>
+        <div id="btBody"></div>`;
+      return $('btBody');
+    }
+    function btShowPhase(secs, renderShow, onRecall){
+      const body = btPhaseShell('👀 MEMORISE — observe carefully');
+      const box = document.createElement('div'); box.className = 'showbox';
+      renderShow(box); body.appendChild(box);
+      let done = false;
+      const finish = () => { if(done) return; done = true; clearInterval(BT.showInt); onRecall(); };
+      const ready = document.createElement('button');
+      ready.type = 'button'; ready.className = 'btn primary big mt';
+      ready.textContent = "✓ I've memorised it — start recall";
+      ready.addEventListener('click', finish);
+      body.appendChild(ready);
+      clearInterval(BT.showInt);
+      BT.showLeft = secs;
+      const draw = () => {
+        const f = $('btFill'), s = $('btSecs');
+        if(f) f.style.width = Math.max(0, BT.showLeft / secs * 100) + '%';
+        if(s) s.textContent = Math.max(0, Math.ceil(BT.showLeft)) + 's to memorise';
+      };
+      draw();
+      BT.showInt = setInterval(() => {
+        if(!BT.playing) return;
+        BT.showLeft -= 0.25; draw();
+        if(BT.showLeft <= 0) finish();
+      }, 250);
+    }
+    function btRecallShell(){
+      const body = btPhaseShell('✍️ RECALL — answer from memory');
+      $('btFill').style.width = '0%';
+      $('btSecs').textContent = 'Fast recall = bigger speed bonus ⚡';
+      const card = document.createElement('div');
+      card.className = 'card'; card.style.marginTop = '12px';
+      body.appendChild(card);
+      BT.recallStart = Date.now();
+      return { body, card };
+    }
+    function btSubmit(body, label, onClick){
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'btn primary big mt'; b.textContent = label;
+      b.addEventListener('click', onClick);
+      body.appendChild(b);
+      return b;
+    }
+    /* frac 0..1 → base points (up to 100) + speed bonus (2 pts per second under par, scaled by accuracy) */
+    function btFinishRound(frac, parSecs, note){
+      btClearTimers();
+      const elapsed = Math.max(0.1, (Date.now() - BT.recallStart) / 1000);
+      const base = Math.round(frac * 100);
+      const bonus = frac > 0 ? Math.round(Math.max(0, parSecs - elapsed) * 2 * frac) : 0;
+      const pts = base + bonus;
+      BT.session += pts; BT.total += pts;
+      if(!BT.bests[BT.mode] || BT.session > BT.bests[BT.mode]) BT.bests[BT.mode] = BT.session;
+      btDrawBar(); renderBtGrid();
+      /* Joy hooks — celebrations & badges (scoring above is unchanged) */
+      awardBadge('first');
+      const clearedStage = frac >= 0.6;
+      if(frac >= 0.8 && elapsed <= parSecs * 0.45) awardBadge('speed');
+      JOY.btStreak = clearedStage ? JOY.btStreak + 1 : 0;
+      if(JOY.btStreak >= 3) awardBadge('fire');
+      if(BT.mode === JOY.dailyMode) markDailyDone();
+      if(frac > 0.9) confettiBurst(true);        /* MEGA DANCE tier gets the big burst */
+      else if(clearedStage) confettiBurst(false);
+      showCheer('cheerBrain');
+      const verdict = frac >= 1 ? '🎉 Perfect recall!' : frac >= 0.6 ? '👏 Great memory!' : frac > 0 ? '💪 Partial recall — points earned' : '🌱 No points this stage — keep going!';
+      const host = $('btHost');
+      host.innerHTML = `
+        <div class="card center">
+          <h2 style="margin-bottom:0;">${verdict}</h2>
+          <p class="muted" style="margin:4px 0 0;">Stage ${BT.stage} · ${esc(btModeName())} · ${btCap(BT.diff)}</p>
+          <div class="res-avatar">${dancerHTML(frac * 100)}</div>
+          <div class="avatar-caption">This is your avatar</div>
+          <div class="pts-big">+${pts} pts</div>
+          <div class="pts-lines">
+            Correct answers: <b>+${base}</b> pts<br />
+            Speed bonus: <b>+${bonus}</b> pts <span class="muted">(answered in ${elapsed.toFixed(1)}s)</span>
+            ${note ? `<br /><span class="muted small">${note}</span>` : ''}
+          </div>
+          <p style="font-weight:800; margin:12px 0 0;">Session ${BT.session} pts · ⭐ Total ${BT.total} pts</p>
+          <div class="btnrow">
+            <button class="btn primary" id="btNext" type="button">Next stage → harder</button>
+            <button class="btn" id="btEnd" type="button">End session</button>
+          </div>
+        </div>`;
+      $('btNext').addEventListener('click', () => { BT.stage++; btDrawBar(); btNextRound(); });
+      $('btEnd').addEventListener('click', btEndSession);
+    }
+    function btEndSession(){
+      btClearTimers(); BT.playing = false; BT.run++;
+      btDrawBar(); renderBtGrid();
+      $('btHost').innerHTML = `
+        <div class="card center">
+          <h2 style="margin-bottom:0;">🏁 Session complete — ${esc(btModeName())}</h2>
+          <div class="pts-big">${BT.session} pts</div>
+          <div class="pts-lines">You reached <b>Stage ${BT.stage}</b> on ${btCap(BT.diff)}.<br />
+          ⭐ Brain Training total: <b>${BT.total} pts</b></div>
+          <div class="btnrow">
+            <button class="btn primary" id="btAgain" type="button">↻ Play this mode again</button>
+            <button class="btn" id="btHome" type="button">⌂ All modes</button>
+          </div>
+        </div>`;
+      $('btAgain').addEventListener('click', () => btStart(BT.mode));
+      $('btHome').addEventListener('click', () => showScreen('home'));
+    }
+    function btNextRound(){
+      if(!BT.playing) return;
+      ({ number: btRoundNumber, pattern: btRoundPattern, color: btRoundColor,
+         word: btRoundWord, sequence: btRoundSequence, grid: btRoundGrid })[BT.mode]();
+    }
+
+    /* --- 1. Number Memory --- */
+    function btRoundNumber(){
+      const len = Math.min(16, 4 + btBase() * 2 + (BT.stage - 1));
+      const seq = Array.from({ length: len }, () => ri(0, 9));
+      btShowPhase(3 + len * 0.8,
+        box => { box.innerHTML = `<div class="bigseq">${seq.join(' ')}</div><p class="muted small" style="margin-top:10px;">${len} digits — Stage ${BT.stage}</p>`; },
+        () => {
+          const { body, card } = btRecallShell();
+          const ti = textInput(`Type the ${len} digits in the same order:`, len + ' digits');
+          card.appendChild(ti.el);
+          btSubmit(body, 'Check my answer', () => {
+            const got = ti.val().replace(/\D/g, '').split('').filter(x => x !== '').map(Number);
+            btFinishRound(seqFrac(got, seq), 6 + len * 1.5, `The sequence was: ${seq.join(' ')}`);
+          });
+        });
+    }
+    /* --- 2. Pattern Memory --- */
+    function btRoundPattern(){
+      const size = Math.min(5, 3 + (btBase() >= 1 ? 1 : 0) + (BT.stage >= 4 ? 1 : 0));
+      const cells = Array.from({ length: size * size }, (_, i) => i);
+      const litN = Math.min(cells.length - 2, 3 + btBase() + BT.stage);
+      const lit = new Set(sample(cells, litN));
+      btShowPhase(6 + litN,
+        box => { box.innerHTML = `<div class="gridboard" style="grid-template-columns:repeat(${size},auto);">${cells.map(i => `<div class="gcell ${lit.has(i) ? 'lit' : ''}"></div>`).join('')}</div>`; },
+        () => {
+          const { body, card } = btRecallShell();
+          const q = document.createElement('div'); q.className = 'q';
+          q.innerHTML = `<div class="qp">Rebuild the pattern — tap the ${litN} squares that were lit:</div>`;
+          const grid = document.createElement('div'); grid.className = 'gridboard';
+          grid.style.gridTemplateColumns = `repeat(${size},auto)`;
+          const mine = new Set();
+          cells.forEach(i => {
+            const b = document.createElement('button'); b.type = 'button'; b.className = 'gcell';
+            b.addEventListener('click', () => { mine.has(i) ? mine.delete(i) : mine.add(i); b.classList.toggle('lit'); });
+            grid.appendChild(b);
+          });
+          q.appendChild(grid); card.appendChild(q);
+          btSubmit(body, 'Check my pattern', () => {
+            let ok = 0; cells.forEach(i => { if(lit.has(i) === mine.has(i)) ok++; });
+            btFinishRound(ok / cells.length, 25, `${mine.size} squares tapped · ${litN} were lit`);
+          });
+        });
+    }
+    /* --- 3. Color Memory --- */
+    function btRoundColor(){
+      const n = Math.min(10, 3 + btBase() + BT.stage);
+      const seq = Array.from({ length: n }, () => COLORS[rnd(COLORS.length)]);
+      btShowPhase(4 + n * 1.1,
+        box => { box.innerHTML = colorSeqHTML(seq) + `<p class="muted small" style="margin-top:12px;">${n} colours in order — Stage ${BT.stage}</p>`; },
+        () => {
+          const { body, card } = btRecallShell();
+          const ob = orderBuilder('Tap the colours in the SAME order you saw them:', COLORS.map(c => ({ id: c.n, html: `<span style="display:inline-block;width:20px;height:20px;border-radius:6px;background:${c.c};vertical-align:-4px;"></span> ${c.n}` })));
+          card.appendChild(ob.el);
+          btSubmit(body, 'Check my order', () => {
+            btFinishRound(orderFrac(ob.order(), seq.map(c => c.n)), 8 + n * 2, `The order was: ${seq.map(c => c.n).join(' · ')}`);
+          });
+        });
+    }
+    /* --- 4. Word Memory --- */
+    function btRoundWord(){
+      const n = Math.min(14, 4 + btBase() * 2 + (BT.stage - 1));
+      const words = sample(WORDS, n);
+      const distract = sample(WORDS.filter(w => !words.includes(w)), Math.min(8, Math.ceil(n / 2) + 2));
+      btShowPhase(5 + n * 1.6,
+        box => { box.innerHTML = wordChips(words); },
+        () => {
+          const { body, card } = btRecallShell();
+          const opts = shuffle([...words.map(w => ({ id: w, label: w })), ...distract.map(w => ({ id: 'x' + w, label: w }))]);
+          const ms = multiSelect(`Select ALL ${n} words you saw:`, opts, new Set(words));
+          card.appendChild(ms.el);
+          btSubmit(body, 'Check my words', () => {
+            btFinishRound(ms.frac(), 30, `The words were: ${words.join(', ')}`);
+          });
+        });
+    }
+    /* --- 5. Sequence Memory (Simon-style) --- */
+    function btRoundSequence(){
+      const run = BT.run;
+      const len = Math.min(12, 3 + btBase() + (BT.stage - 1));
+      const PADS = [
+        { n: 'Ruby', c: '#ef476f' }, { n: 'Sky', c: '#4cc9f0' },
+        { n: 'Lime', c: '#2fbf71' }, { n: 'Gold', c: '#ffb703' }
+      ];
+      const seq = Array.from({ length: len }, () => rnd(4));
+      const body = btPhaseShell('👀 WATCH — the pads will flash in sequence');
+      $('btFill').style.width = '0%'; $('btSecs').textContent = len + ' flashes';
+      const box = document.createElement('div'); box.className = 'showbox';
+      box.innerHTML = `<div class="padgrid">${PADS.map((p, i) => `<button type="button" class="pad" data-pad="${i}" style="background:${p.c};--padc:${p.c}" disabled aria-label="${p.n} pad"></button>`).join('')}</div>
+        <p class="muted" id="btSeqStatus" style="font-weight:800; margin:14px 0 0;">Get ready…</p>`;
+      body.appendChild(box);
+      const padEls = Array.from(box.querySelectorAll('.pad'));
+      const alive = () => BT.playing && BT.run === run && BT.mode === 'sequence';
+      let i = 0;
+      const flashNext = () => {
+        if(!alive()) return;
+        if(i >= seq.length){
+          BT.recallStart = Date.now();
+          const st = $('btSeqStatus'); if(st) st.textContent = '✍️ Your turn — repeat the sequence!';
+          padEls.forEach(p => p.disabled = false);
+          let progress = 0;
+          padEls.forEach(p => p.addEventListener('click', () => {
+            if(!alive()) return;
+            const idx = Number(p.dataset.pad);
+            p.classList.add('on'); btLater(() => p.classList.remove('on'), 220);
+            if(idx === seq[progress]){
+              progress++;
+              if(progress >= seq.length) btFinishRound(1, 6 + len * 2, `Full ${len}-step sequence repeated!`);
+            } else {
+              btFinishRound(progress / len, 6 + len * 2, `You reached step ${progress + 1} of ${len} before a wrong pad.`);
+            }
+          }));
+          return;
+        }
+        const el = padEls[seq[i]];
+        el.classList.add('on');
+        btLater(() => { el.classList.remove('on'); i++; btLater(flashNext, 200); }, 560);
+      };
+      btLater(flashNext, 700);
+    }
+    /* --- 6. Grid Memory --- */
+    function btRoundGrid(){
+      const run = BT.run;
+      const size = Math.min(5, 3 + (btBase() >= 1 ? 1 : 0) + (BT.stage >= 5 ? 1 : 0));
+      const cells = Array.from({ length: size * size }, (_, i) => i);
+      const n = Math.min(cells.length - 3, 3 + btBase() + BT.stage);
+      const targets = sample(cells, n);
+      const body = btPhaseShell('👀 WATCH — tiles light up one by one');
+      $('btFill').style.width = '0%'; $('btSecs').textContent = n + ' tiles';
+      const box = document.createElement('div'); box.className = 'showbox';
+      box.innerHTML = `<div class="gridboard" style="grid-template-columns:repeat(${size},auto);">${cells.map(i => `<div class="gcell" data-cell="${i}"></div>`).join('')}</div>
+        <p class="muted" style="font-weight:800; margin:14px 0 0;">Remember every tile that lights up…</p>`;
+      body.appendChild(box);
+      const cellEls = Array.from(box.querySelectorAll('.gcell'));
+      const alive = () => BT.playing && BT.run === run && BT.mode === 'grid';
+      let i = 0;
+      const flashNext = () => {
+        if(!alive()) return;
+        if(i >= targets.length){
+          const { body: rBody, card } = btRecallShell();
+          const q = document.createElement('div'); q.className = 'q';
+          q.innerHTML = `<div class="qp">Tap the ${n} tiles that lit up:</div>`;
+          const grid = document.createElement('div'); grid.className = 'gridboard';
+          grid.style.gridTemplateColumns = `repeat(${size},auto)`;
+          const mine = new Set();
+          cells.forEach(ci => {
+            const b = document.createElement('button'); b.type = 'button'; b.className = 'gcell';
+            b.addEventListener('click', () => { mine.has(ci) ? mine.delete(ci) : mine.add(ci); b.classList.toggle('picked'); });
+            grid.appendChild(b);
+          });
+          q.appendChild(grid); card.appendChild(q);
+          btSubmit(rBody, 'Check my tiles', () => {
+            let hits = 0, falseP = 0;
+            mine.forEach(ci => targets.includes(ci) ? hits++ : falseP++);
+            btFinishRound(Math.max(0, hits - falseP) / n, 22, `${hits} of ${n} tiles found`);
+          });
+          return;
+        }
+        const el = cellEls[targets[i]];
+        el.classList.add('flash');
+        btLater(() => { el.classList.remove('flash'); i++; btLater(flashNext, 180); }, 620);
+      };
+      btLater(flashNext, 700);
+    }
+    /* Brain training wiring */
+    $('btLevelSeg').querySelectorAll('.btn').forEach(b => b.addEventListener('click', () => {
+      BT.diff = b.dataset.bdiff;
+      $('btLevelSeg').querySelectorAll('.btn').forEach(x => x.classList.toggle('sel', x === b));
+    }));
+    $('btQuit').addEventListener('click', btQuit);
+    renderBtGrid();
+
+    /* ================= Joy layer ================= */
+    /* Fun extras only — Arena marks and Brain Training scoring rules are untouched.
+       Spin bonus points go into the Brain Training total ONLY, never Arena marks. */
+    const JOY = {
+      badges: {},            // badgeId -> true (this visit)
+      triedModes: new Set(), // brain training modes tried (Explorer badge)
+      btStreak: 0,           // consecutive BT stages cleared (On Fire badge)
+      spun: false, spinning: false,
+      dailyDone: false, dailyMode: null,
+      cheerIdx: 0, tipIdx: 0
+    };
+    const CHEERS = [
+      "Superb! Nee oru memory star aanu! ⭐",
+      "Adipoli! Your brain is shining bright! ✨",
+      "Great going — ormma shakti polichu! 💪",
+      "Lovely recall! Keep this josh going! 🎉",
+      "Wah, fantastic! Brain full power! 🔋",
+      "Nalla pani! That memory is getting sharper! 🗡️",
+      "Brilliant! You are on a joyful roll! 🎈",
+      "Polichadukki! One more round, one more smile! 😄"
+    ];
+    function showCheer(elId){
+      const el = $(elId); if(!el) return;
+      el.textContent = CHEERS[JOY.cheerIdx % CHEERS.length];
+      JOY.cheerIdx++;
+      el.classList.add('show');
+      clearTimeout(el._h); el._h = setTimeout(() => el.classList.remove('show'), 4200);
+    }
+    /* ---- Confetti ---- */
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function confettiBurst(big){
+      if(reduceMotion) return;
+      const cv = $('confettiCanvas'); if(!cv) return;
+      const ctx = cv.getContext('2d');
+      cv.width = window.innerWidth; cv.height = window.innerHeight;
+      const cols = ['#ff5c7a','#ffb703','#2fbf71','#4cc9f0','#a55eea','#ff9f43','#f368e0'];
+      const n = big ? 170 : 90;
+      const parts = [];
+      for(let i = 0; i < n; i++){
+        parts.push({
+          x: cv.width / 2 + (Math.random() - .5) * cv.width * .5,
+          y: cv.height * .28 + (Math.random() - .5) * 60,
+          vx: (Math.random() - .5) * 11, vy: -(4 + Math.random() * 8),
+          w: 5 + Math.random() * 6, h: 8 + Math.random() * 8,
+          c: cols[i % cols.length], rot: Math.random() * Math.PI, vr: (Math.random() - .5) * .3,
+          life: 1
+        });
+      }
+      let frames = 0;
+      (function tick(){
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        frames++;
+        parts.forEach(p => {
+          p.x += p.vx; p.y += p.vy; p.vy += .22; p.vx *= .99; p.rot += p.vr;
+          if(frames > 55) p.life -= .03;
+          ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+          ctx.globalAlpha = Math.max(0, p.life);
+          ctx.fillStyle = p.c; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        });
+        if(frames < 130) requestAnimationFrame(tick);
+        else ctx.clearRect(0, 0, cv.width, cv.height);
+      })();
+    }
+    /* ---- Badges ---- */
+    const BADGES = [
+      { id:'first',  ico:'👣', name:'First Steps',    how:'Finish your first game' },
+      { id:'sharp',  ico:'🎯', name:'Sharp Mind',     how:'Score 80% or more in the Arena' },
+      { id:'speed',  ico:'⚡', name:'Speed Star',     how:'Clear a Brain Training stage super fast' },
+      { id:'master', ico:'👑', name:'Memory Master',  how:'Finish all 30 Arena rounds' },
+      { id:'explorer', ico:'🧭', name:'Explorer',     how:'Try all 6 Brain Training modes' },
+      { id:'fire',   ico:'🔥', name:'On Fire',        how:'Clear 3 Brain Training stages in a row' }
+    ];
+    function renderBadges(popId){
+      const row = $('badgeRow'); if(!row) return;
+      row.innerHTML = BADGES.map(b => `
+        <div class="badge ${JOY.badges[b.id] ? 'lit' : ''} ${b.id === popId ? 'pop' : ''}" id="badge-${b.id}">
+          <div class="b-ico">${b.ico}</div>
+          <div class="b-name">${b.name}</div>
+          <div class="b-how">${JOY.badges[b.id] ? '✓ Earned!' : b.how}</div>
+        </div>`).join('');
+      $('badgeCount').textContent = BADGES.filter(b => JOY.badges[b.id]).length;
+    }
+    function awardBadge(id){
+      if(JOY.badges[id]) return;
+      JOY.badges[id] = true;
+      const b = BADGES.find(x => x.id === id);
+      renderBadges(id);
+      toast(`🏅 Badge earned: ${b.ico} ${b.name}!`);
+    }
+    /* ---- Brain Tip of the Day ---- */
+    const TIPS = [
+      "Chunk it! Grouping 9 digits as 3-3-3 makes them three times easier to hold. Try it in Number Memory!",
+      "Your brain loves pictures — turn a word into a funny image in your mind and it sticks like glue. 🎨",
+      "Sleep is memory's best friend: your brain files the day's memories while you dream. 😴",
+      "Say it aloud! Hearing a list in your own voice gives your memory a second doorway in. 🗣️",
+      "The memory palace trick: place each item in a room of your house, then walk through and collect them. 🏠",
+      "Short, happy practice beats one long grind — five joyful minutes daily grows a champion memory. 🌱",
+      "Smell and memory are neighbours in the brain — a familiar scent can bring back a whole day! 🌸",
+      "Teach what you memorised to a friend — explaining is the strongest glue of all. 🤝",
+      "Movement helps memory: a short walk before a game wakes up your brain's recording button. 🚶",
+      "Curiosity is a memory magnet — things you find interesting are remembered almost for free. 🔍"
+    ];
+    function dayIndex(){
+      const d = new Date();
+      return Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 86400000);
+    }
+    function showTip(){
+      $('brainTip').textContent = TIPS[JOY.tipIdx % TIPS.length];
+    }
+    /* ---- Challenge of the Day ---- */
+    const DAILY_TWISTS = [
+      "Today's twist: play it on your chosen difficulty and clear Stage 1 with a smile!",
+      "Today's twist: beat your own calm — no rushing, just steady, joyful recall.",
+      "Today's twist: clear Stage 1, then try to beat that score on Stage 2!",
+      "Today's twist: play it once with full concentration, phone face-down. You can do it!",
+      "Today's twist: clear Stage 1 and cheer for yourself — out loud! 🎉",
+      "Today's twist: finish Stage 1, then teach the trick you used to a friend."
+    ];
+    function setupDaily(){
+      const idx = dayIndex() % BT_MODES.length;
+      const m = BT_MODES[idx];
+      JOY.dailyMode = m.id;
+      $('dailyTitle').textContent = `🎯 ${m.name} — ${['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date().getDay()]} Special`;
+      $('dailyDesc').textContent = `${m.desc} ${DAILY_TWISTS[dayIndex() % DAILY_TWISTS.length]} Clear Stage 1 to complete today's challenge.`;
+    }
+    function markDailyDone(){
+      if(JOY.dailyDone) return;
+      JOY.dailyDone = true;
+      $('dailyTick').style.display = '';
+      $('dailyDoneNote').style.display = '';
+      $('dailyPlay').textContent = '✓ Completed today — play again for fun';
+    }
+    /* ---- Lucky Spin (Brain Training points ONLY) ---- */
+    const SPIN_SEGS = [
+      { pts: 10, c: '#ef476f' }, { pts: 50, c: '#ffb703' }, { pts: 20, c: '#2fbf71' }, { pts: 100, c: '#a55eea' },
+      { pts: 30, c: '#4cc9f0' }, { pts: 200, c: '#ff9f43' }, { pts: 40, c: '#f368e0' }, { pts: 75, c: '#4361ee' }
+    ];
+    let spinAngle = 0;
+    function buildWheel(){
+      const w = $('spinWheel'); if(!w) return;
+      const seg = 360 / SPIN_SEGS.length;
+      w.style.background = `conic-gradient(${SPIN_SEGS.map((s, i) => `${s.c} ${i * seg}deg ${(i + 1) * seg}deg`).join(', ')})`;
+      w.innerHTML = SPIN_SEGS.map((s, i) => {
+        const a = (i + .5) * seg;
+        return `<span class="wlab" style="transform:rotate(${a}deg) translate(58px,-50%);">${s.pts}</span>`;
+      }).join('');
+    }
+    function doSpin(){
+      if(JOY.spun || JOY.spinning) return;
+      JOY.spinning = true;
+      $('spinBtn').disabled = true;
+      $('spinResult').textContent = 'Spinning… good luck! 🍀';
+      const winIdx = rnd(SPIN_SEGS.length);
+      const seg = 360 / SPIN_SEGS.length;
+      const targetMod = (360 - (winIdx + .5) * seg) % 360;
+      const curMod = ((spinAngle % 360) + 360) % 360;
+      let delta = targetMod - curMod; if(delta < 0) delta += 360;
+      spinAngle += 360 * 5 + delta;
+      $('spinWheel').style.transform = `rotate(${spinAngle}deg)`;
+      setTimeout(() => {
+        JOY.spinning = false; JOY.spun = true;
+        const pts = SPIN_SEGS[winIdx].pts;
+        BT.total += pts;               // Brain Training total ONLY — never Arena marks
+        btDrawBar(); renderBtGrid();
+        $('spinResult').textContent = `🎉 You won +${pts} bonus pts — added to your Brain Training total (now ${BT.total} pts)!`;
+        $('spinBtn').textContent = '✓ Spin used — see you next visit!';
+        confettiBurst(false);
+        toast(`🎡 Lucky Spin: +${pts} Brain Training pts!`);
+      }, reduceMotion ? 700 : 4400);
+    }
+    /* ---- Avatar Gallery ---- */
+    function buildGallery(){
+      const grid = $('galleryGrid'); if(!grid || !G.user) return;
+      const mine = charFor(G.user.adno);
+      grid.innerHTML = CHARACTERS.map((c, i) => {
+        const own = (i + 1) === mine.num;
+        return `<div class="gal-cell ${own ? 'mine' : ''}">
+          <div class="g-emoji">${c[0]}</div>
+          ${own ? '<div class="g-star">⭐</div>' : ''}
+          <div class="g-name">${esc(c[1])}</div>
+          ${own ? '<div class="g-cap">This is your avatar</div>' : ''}
+        </div>`;
+      }).join('');
+    }
+    /* ---- Fun finish mood line ---- */
+    function moodLine(pct){
+      if(pct >= 90) return "👑 CHAMPION MODE! Your memory deserves its own trophy shelf — the Arena bows to you!";
+      if(pct >= 75) return "🌟 Superstar recall! Somewhere, a goldfish is taking notes from you. 🐠";
+      if(pct >= 60) return "🎉 Lovely work! Your brain is doing happy little dances right now.";
+      if(pct >= 45) return "💪 Solid effort! Your memory muscles grew a little today — feel that burn? That's growth!";
+      if(pct >= 30) return "🌱 A cheerful start! Even elephants began with small steps. Tomorrow, you roar! 🦁";
+      return "😄 Plot twist: your brain was just warming up! Every legend has a funny first chapter — play again and watch the comeback!";
+    }
+
+    /* ================= Wiring ================= */
+    $('tabIn').addEventListener('click', () => setAuthMode('in'));
+    $('tabUp').addEventListener('click', () => setAuthMode('up'));
+    $('authGo').addEventListener('click', doAuth);
+    $('authPass').addEventListener('keydown', e => { if(e.key === 'Enter') doAuth(); });
+    $('authName').addEventListener('keydown', e => { if(e.key === 'Enter') $('authPass').focus(); });
+    $('signOutBtn').addEventListener('click', () => { G.user = null; $('authPass').value=''; showScreen('auth'); });
+    $('themeSelector').addEventListener('click', () => setPicker(!$('themePicker').classList.contains('open')));
+    $('themeDone').addEventListener('click', () => { setPicker(false); toast('Theme kept: ' + curTheme[0] + ' ✓'); });
+    $('paperDhaakira').addEventListener('click', () => { G.paper='dhaakira'; $('paperDhaakira').classList.add('sel'); $('paperBno14').classList.remove('sel'); });
+    $('paperBno14').addEventListener('click', () => { G.paper='bno14'; $('paperBno14').classList.add('sel'); $('paperDhaakira').classList.remove('sel'); });
+    $('levelSeg').querySelectorAll('.btn').forEach(b => b.addEventListener('click', () => {
+      G.level = b.dataset.level;
+      $('levelSeg').querySelectorAll('.btn').forEach(x => x.classList.toggle('sel', x === b));
+    }));
+    $('startBtn').addEventListener('click', startGame);
+    $('downloadBtnAuth').addEventListener('click', downloadApp);
+    $('downloadBtnHome').addEventListener('click', downloadApp);
+    $('pauseBtn').addEventListener('click', () => setPaused(true));
+    $('resumeBtn').addEventListener('click', () => setPaused(false));
+    $('quitBtn').addEventListener('click', quitGame);
+    $('stopBtn').addEventListener('click', stopGame);
+    $('pauseQuitBtn').addEventListener('click', quitGame);
+    $('pauseStopBtn').addEventListener('click', stopGame);
+    $('confirmNo').addEventListener('click', () => $('confirmOverlay').classList.remove('open'));
+    $('confirmYes').addEventListener('click', () => { $('confirmOverlay').classList.remove('open'); if(confirmCb) confirmCb(); });
+    /* Joy wiring */
+    $('tipNext').addEventListener('click', () => { JOY.tipIdx++; showTip(); });
+    $('spinBtn').addEventListener('click', doSpin);
+    $('dailyPlay').addEventListener('click', () => { if(JOY.dailyMode) btStart(JOY.dailyMode); });
+    $('galleryToggle').addEventListener('click', () => {
+      const host = $('galleryHost');
+      const open = host.classList.toggle('hidden') === false;
+      buildGallery();
+      $('galleryToggle').textContent = open ? 'Hide gallery' : 'Browse all 124';
+      $('galleryToggle').setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    /* ================= Init ================= */
+    buildThemeGrid();
+    applyTheme(THEMES[0]);
+    $('roundNamesList').innerHTML = ROUND_NAMES.map(n => `<li>${esc(n)}</li>`).join('');
+    renderLeaderboard();
+    /* Joy init */
+    JOY.tipIdx = dayIndex();
+    showTip();
+    buildWheel();
+    setupDaily();
+    renderBadges();
+    </script>
+  </body>
+</html>
